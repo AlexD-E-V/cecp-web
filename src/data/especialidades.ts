@@ -68,7 +68,7 @@ export const especialidades: Especialidad[] = [
     nombre: 'Cardiología',
     doctor: 'Dr. Vicente Sánchez Crespo',
     credenciales:
-      'Experto en Medicina Genética y Genómica (UCAM, España) · Enfermedades autoinmunes y gestión en salud pública (Johns Hopkins University) · Consultor sénior',
+      '<b>Experto en Medicina Genética y Genómica (UCAM, España) · Enfermedades autoinmunes y gestión en salud pública (Johns Hopkins University) · Consultor sénior</b>',
     schemaEspecialidad: 'Cardiovascular',
     descripcion:
       '¿Buscas un <b>cardiólogo en Guayaquil</b>? Prevención, diagnóstico y tratamiento de enfermedades del corazón: ECG, ecocardiograma, Holter 24h y estudios de cardiogenética.',
