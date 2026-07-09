@@ -49,17 +49,23 @@ const NAV_LINKS = [
 
   const burger = document.getElementById('burger')!;
   const mmenu = document.getElementById('mmenu')!;
-  burger.addEventListener('click', () => {
-    const abierto = mmenu.classList.toggle('open');
+  const setAbierto = (abierto: boolean) => {
+    mmenu.classList.toggle('open', abierto);
+    burger.classList.toggle('open', abierto);
     burger.setAttribute('aria-expanded', String(abierto));
     burger.setAttribute('aria-label', abierto ? 'Cerrar menú' : 'Abrir menú');
+  };
+  burger.addEventListener('click', () => setAbierto(!mmenu.classList.contains('open')));
+  mmenu.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setAbierto(false)));
+  // cerrar al tocar fuera del menú o al presionar Escape
+  document.addEventListener('click', (e) => {
+    if (!mmenu.classList.contains('open')) return;
+    const objetivo = e.target as Node;
+    if (!mmenu.contains(objetivo) && !burger.contains(objetivo)) setAbierto(false);
   });
-  mmenu.querySelectorAll('a').forEach((a) =>
-    a.addEventListener('click', () => {
-      mmenu.classList.remove('open');
-      burger.setAttribute('aria-expanded', 'false');
-    })
-  );
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') setAbierto(false);
+  });
 </script>
 
 <style>
@@ -155,10 +161,21 @@ const NAV_LINKS = [
     height: 3px;
     background: var(--color-azul);
     border-radius: 2px;
-    transition: 0.3s;
+    transition:
+      transform 0.3s,
+      opacity 0.3s;
+  }
+  /* burger → X cuando el menú está abierto: feedback inmediato al toque */
+  .burger.open span:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+  }
+  .burger.open span:nth-child(2) {
+    opacity: 0;
+  }
+  .burger.open span:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
   }
   .mobile-menu {
-    display: none;
     position: fixed;
     top: 76px;
     left: 0;
@@ -168,9 +185,21 @@ const NAV_LINKS = [
     padding: 22px 6%;
     box-shadow: 0 20px 40px rgba(14, 58, 93, 0.15);
     border-top: 1px solid var(--color-celeste-suave);
+    /* cerrado: desplazado y transparente; sin display:none para poder animar */
+    opacity: 0;
+    transform: translateY(-14px);
+    visibility: hidden;
+    pointer-events: none;
+    transition:
+      opacity 0.3s ease,
+      transform 0.3s cubic-bezier(0.2, 0.7, 0.3, 1),
+      visibility 0.3s;
   }
   .mobile-menu.open {
-    display: block;
+    opacity: 1;
+    transform: none;
+    visibility: visible;
+    pointer-events: auto;
   }
   .mobile-menu a {
     display: block;

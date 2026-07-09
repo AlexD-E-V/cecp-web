@@ -7,7 +7,13 @@
  *    alcance a verse y un tope duro de 4 s por si algún recurso se cuelga.
  * 2. Solo aparece en la primera visita de la sesión (sessionStorage): navegar
  *    entre páginas del sitio no vuelve a mostrarla.
- * 3. Con prefers-reduced-motion no se muestra en absoluto.
+ * 3. Con prefers-reduced-motion no se muestra en absoluto (ni suena la campanada).
+ * 4. Campanada de bienvenida (acorde C6-E6-G6 sintetizado): los navegadores
+ *    BLOQUEAN todo audio hasta el primer gesto del usuario (política de
+ *    autoplay de Chrome/Safari), así que se intenta al armar y, si el contexto
+ *    está suspendido, queda a la espera del primer toque/clic/tecla. Ese
+ *    "retraso" no es un bug nuestro: ningún sitio puede sonar antes del primer
+ *    gesto, y el HTML original tenía exactamente la misma limitación.
  */
 ---
 
@@ -61,6 +67,40 @@
       }, 900);
     }
 
+    // Campanada de bienvenida (acorde C6-E6-G6). Los navegadores bloquean el
+    // audio hasta el PRIMER GESTO del usuario (política de autoplay): se intenta
+    // al armar y, si el contexto nace suspendido, se reintenta al primer
+    // toque/clic/tecla. Suena una sola vez, y solo en la visita del loader.
+    var sono = false;
+    var GESTOS = ['pointerdown', 'touchstart', 'keydown'];
+    function campanada() {
+      if (sono) return;
+      try {
+        var AC = window.AudioContext || window.webkitAudioContext;
+        var actx = new AC();
+        if (actx.state === 'suspended') {
+          actx.close();
+          return; // sin gesto todavía: el listener volverá a intentar
+        }
+        sono = true;
+        GESTOS.forEach(function (ev) {
+          document.removeEventListener(ev, campanada, true);
+        });
+        [[523.25, 0], [659.25, 0.16], [783.99, 0.32]].forEach(function (nota) {
+          var o = actx.createOscillator();
+          var g = actx.createGain();
+          o.type = 'sine';
+          o.frequency.value = nota[0];
+          g.gain.setValueAtTime(0, actx.currentTime + nota[1]);
+          g.gain.linearRampToValueAtTime(0.42, actx.currentTime + nota[1] + 0.06);
+          g.gain.exponentialRampToValueAtTime(0.001, actx.currentTime + nota[1] + 1.4);
+          o.connect(g).connect(actx.destination);
+          o.start(actx.currentTime + nota[1]);
+          o.stop(actx.currentTime + nota[1] + 1.5);
+        });
+      } catch (e) {}
+    }
+
     // Los relojes y las animaciones arrancan recién cuando la página es VISIBLE.
     // Chrome pre-renderiza páginas en segundo plano (sobre todo al escribir la URL);
     // si el cronómetro corriera durante esa fase invisible, el loader se consumiría
@@ -77,6 +117,11 @@
       if (document.readyState === 'complete') alCargar();
       else addEventListener('load', alCargar);
       setTimeout(ocultar, TOPE);
+      // intento inmediato de la campanada + a la espera del primer gesto
+      setTimeout(campanada, 200);
+      GESTOS.forEach(function (ev) {
+        document.addEventListener(ev, campanada, { capture: true });
+      });
     }
 
     if (document.prerendering) {
