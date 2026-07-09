@@ -1,0 +1,143 @@
+---
+import { testimonios } from '../data/testimonios';
+import Testimonio from './Testimonio.astro';
+import BotonWhatsApp from './BotonWhatsApp.astro';
+import { MAPS_SHARE, REVIEW_URL } from '../config';
+
+const delays = [1, 2, 3, 1, 2];
+---
+
+<section class="testi seccion" id="testimonios">
+  <div class="container-cecp">
+    <div class="sec-head reveal">
+      <span class="tag">Testimonios reales</span>
+      <h2>Lo que nuestros pacientes dicen en Google</h2>
+      <div class="badge-wrap">
+        <span class="testi-badge">
+          <span class="g-logo"
+            ><span class="g-b">G</span><span class="g-r">o</span><span class="g-y">o</span><span
+              class="g-b">g</span
+            ><span class="g-g">l</span><span class="g-r">e</span></span
+          >
+          <b>5.0</b>
+          <span class="stars">★★★★★</span>
+          <span class="n-resenas">· 68 reseñas verificadas</span>
+        </span>
+      </div>
+    </div>
+    <div class="testi-grid">
+      {
+        testimonios.map((t, i) => (
+          <Testimonio testimonio={t} delay={delays[i % delays.length] ?? 1} />
+        ))
+      }
+      <div class="tst-cta reveal d3">
+        <div class="corazon" aria-hidden="true">💙</div>
+        <p>
+          ¿Ya nos visitaste? Tu opinión ayuda a más familias a encontrar atención médica de calidad.
+        </p>
+        <div>
+          <a class="btn btn-resena" href={REVIEW_URL} target="_blank" rel="noopener"
+            >⭐ Déjanos tu reseña</a
+          >
+        </div>
+      </div>
+    </div>
+    <div class="testi-ctas reveal">
+      <a class="btn btn-linea" href={MAPS_SHARE} target="_blank" rel="noopener"
+        >Ver todas las reseñas en Google</a
+      >
+      <BotonWhatsApp>Agendar mi cita</BotonWhatsApp>
+    </div>
+  </div>
+</section>
+
+<style>
+  .testi {
+    background: linear-gradient(180deg, #fff 0%, var(--color-celeste-suave) 100%);
+  }
+  .badge-wrap {
+    margin-top: 16px;
+  }
+  .testi-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: #fff;
+    border-radius: 50px;
+    padding: 10px 22px;
+    box-shadow: var(--shadow-suave);
+    border: 1px solid rgba(127, 196, 232, 0.3);
+    font-family: var(--font-ui);
+    font-weight: 600;
+    font-size: 14.5px;
+    margin-bottom: 8px;
+  }
+  .testi-badge b {
+    font-size: 19px;
+    color: var(--color-azul-oscuro);
+  }
+  .g-logo {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 18px;
+  }
+  .g-b { color: #4285f4; }
+  .g-r { color: #ea4335; }
+  .g-y { color: #fbbc05; }
+  .g-g { color: #34a853; }
+  .stars {
+    color: #fbbc05;
+    letter-spacing: 2px;
+    font-size: 15px;
+  }
+  .n-resenas {
+    color: var(--color-gris);
+    font-weight: 500;
+  }
+  .testi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 22px;
+    margin-top: 20px;
+  }
+  .tst-cta {
+    background: linear-gradient(150deg, var(--color-azul), var(--color-turquesa));
+    color: #fff;
+    border-radius: var(--radius-tarjeta);
+    padding: 26px;
+    box-shadow: var(--shadow-suave);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    transition: transform 0.35s;
+  }
+  .tst-cta:hover {
+    transform: translateY(-6px);
+  }
+  .tst-cta .corazon {
+    font-size: 44px;
+    margin-bottom: 10px;
+  }
+  .tst-cta p {
+    color: #fff;
+    font-family: var(--font-ui);
+    font-weight: 500;
+    font-size: 16px;
+  }
+  .tst-cta > div:last-child {
+    margin-top: 20px;
+  }
+  .btn-resena {
+    background: #fff;
+    color: var(--color-azul);
+  }
+  .testi-ctas {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 36px;
+  }
+</style>

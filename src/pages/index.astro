@@ -1,0 +1,109 @@
+---
+import Base from '../layouts/Base.astro';
+import Loader from '../components/Loader.astro';
+import Hero from '../components/Hero.astro';
+import Confianza from '../components/Confianza.astro';
+import Cardiogenetica from '../components/Cardiogenetica.astro';
+import Especialidades from '../components/Especialidades.astro';
+import Horario from '../components/Horario.astro';
+import Testimonios from '../components/Testimonios.astro';
+import Contacto from '../components/Contacto.astro';
+import MapaUbicacion from '../components/MapaUbicacion.astro';
+import { especialidades } from '../data/especialidades';
+import {
+  COORDENADAS,
+  DIRECCION,
+  EMAIL,
+  MAPS_SHARE,
+  NOMBRE_LEGAL,
+  REDES,
+  TELEFONO,
+} from '../config';
+
+const TITLE =
+  'CECP - Centro de Especialidades Médicas en Guayaquil | Cardiología, Pediatría, Odontología';
+const DESCRIPTION =
+  'CECP: atención médica especializada para toda la familia en Guayaquil. Cardiología, pediatría, neonatología, ginecología, odontología y más. Equipos de primera generación. Agenda por WhatsApp en segundos.';
+
+const siteUrl = Astro.site!.toString();
+
+// Schema.org: MedicalClinic (sin aggregateRating: Google ignora las valoraciones
+// autodeclaradas en el propio sitio; las reseñas reales viven en Google Maps)
+const schemaClinica = {
+  '@context': 'https://schema.org',
+  '@type': 'MedicalClinic',
+  '@id': `${siteUrl}#clinic`,
+  name: NOMBRE_LEGAL,
+  alternateName: 'Cecp Especialidades Médicas',
+  description:
+    'Primer centro médico de Guayaquil especializado en Cardiogenética, pionero en el abordaje de la Amiloidosis Cardíaca. Atención integral en pediatría y múltiples especialidades con tecnología cardiovascular respaldada por inteligencia artificial.',
+  url: siteUrl,
+  logo: `${siteUrl}og-cecp.jpg`,
+  image: `${siteUrl}og-cecp.jpg`,
+  telephone: `+${TELEFONO}`,
+  priceRange: '$$',
+  currenciesAccepted: 'USD',
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: DIRECCION,
+    addressLocality: 'Guayaquil',
+    addressRegion: 'Guayas',
+    postalCode: '090505',
+    addressCountry: 'EC',
+  },
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: COORDENADAS.lat,
+    longitude: COORDENADAS.lon,
+  },
+  hasMap: MAPS_SHARE,
+  openingHoursSpecification: [
+    {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+      opens: '07:00',
+      closes: '16:00',
+    },
+  ],
+  availableService: [
+    { '@type': 'MedicalProcedure', name: 'Cardiogenética y Amiloidosis Cardíaca' },
+    { '@type': 'MedicalProcedure', name: 'Electrocardiograma (ECG)' },
+    { '@type': 'MedicalProcedure', name: 'Holter de arritmias 24h' },
+    { '@type': 'MedicalProcedure', name: 'Holter de presión (MAPA) 24h' },
+    { '@type': 'MedicalProcedure', name: 'Ecocardiograma' },
+  ],
+  medicalSpecialty: ['Cardiovascular', 'Pediatric', 'Gynecologic', 'Dentistry', 'Genetics'],
+  sameAs: [REDES.tiktok, REDES.facebook, REDES.instagram],
+  email: EMAIL,
+};
+
+// Médicos: generados desde src/data/especialidades.ts (una sola fuente de verdad)
+const schemaMedicos = {
+  '@context': 'https://schema.org',
+  '@graph': especialidades
+    .filter((e) => e.doctor !== 'Equipo CECP')
+    .map((e) => ({
+      '@type': e.schemaTipo ?? 'Physician',
+      name: e.doctor,
+      ...(e.schemaEspecialidad ? { medicalSpecialty: e.schemaEspecialidad } : {}),
+      worksFor: { '@id': `${siteUrl}#clinic` },
+    })),
+};
+---
+
+<Base title={TITLE} description={DESCRIPTION}>
+  <Fragment slot="head">
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(schemaClinica)} />
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(schemaMedicos)} />
+  </Fragment>
+
+  <Loader />
+  <Hero />
+  <Confianza />
+  <Cardiogenetica />
+  <Especialidades />
+  <Horario />
+  <Testimonios />
+  <Contacto />
+  <MapaUbicacion />
+</Base>

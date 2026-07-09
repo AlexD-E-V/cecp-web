@@ -1,0 +1,226 @@
+---
+import BotonWhatsApp from './BotonWhatsApp.astro';
+import {
+  DIRECCION_CORTA,
+  EMAIL,
+  REDES,
+  REFERENCIA,
+  TELEFONO,
+  TELEFONO_DISPLAY,
+  TELEFONO_ADICIONAL_DISPLAY,
+} from '../config';
+
+const ITEMS = [
+  {
+    color: '#1B6FAE',
+    svg: '<path d="M21 10c0 7-9 12-9 12S3 17 3 10a9 9 0 0 1 18 0Z"/><circle cx="12" cy="10" r="3"/>',
+    titulo: 'Dirección',
+    texto: DIRECCION_CORTA,
+  },
+  {
+    color: '#19B5A5',
+    svg: '<path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3A19.5 19.5 0 0 1 5.1 13a19.8 19.8 0 0 1-3-8.7A2 2 0 0 1 4 2.1h3a2 2 0 0 1 2 1.7c.1 1 .4 2 .7 2.8a2 2 0 0 1-.5 2.1L8 10a16 16 0 0 0 6 6l1.3-1.2a2 2 0 0 1 2.1-.5c.9.3 1.9.6 2.9.7a2 2 0 0 1 1.7 2Z"/>',
+    titulo: 'Teléfono / WhatsApp',
+    texto: `Principal: ${TELEFONO_DISPLAY} · Adicional: ${TELEFONO_ADICIONAL_DISPLAY}`,
+  },
+  {
+    color: '#1B6FAE',
+    svg: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/>',
+    titulo: 'Referencia',
+    texto: REFERENCIA,
+  },
+  {
+    color: '#3FAE8C',
+    svg: '<rect x="3" y="4" width="18" height="17" rx="2"/><path d="M8 2v4M16 2v4M3 9h18"/>',
+    titulo: 'Horario',
+    texto: 'Consultorio: Lunes a Viernes, 7:00 AM – 4:00 PM · Atención 24/7 con cita previa',
+  },
+];
+---
+
+<section class="seccion" id="contacto">
+  <div class="container-cecp ubi-grid">
+    <div class="ubi-info reveal d2">
+      <span class="tag">Contáctanos</span>
+      <h2>Agenda tu cita en menos de 30 segundos</h2>
+      {
+        ITEMS.map((item) => (
+          <div class="ubi-item">
+            <div class="ubi-ico">
+              <svg
+                width="22"
+                height="22"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke={item.color}
+                stroke-width="2"
+                aria-hidden="true"
+                set:html={item.svg}
+              />
+            </div>
+            <div>
+              <b>{item.titulo}</b>
+              <span>{item.texto}</span>
+            </div>
+          </div>
+        ))
+      }
+      <div class="ubi-ctas">
+        <BotonWhatsApp icono={false}>💬 Agendar por WhatsApp</BotonWhatsApp>
+        <a class="btn btn-linea" href={`tel:+${TELEFONO}`}>📞 Llamar ahora</a>
+      </div>
+      <div class="redes reveal">
+        <a
+          class="red-btn red-fb"
+          href={REDES.facebook}
+          target="_blank"
+          rel="noopener"
+          aria-label="Facebook de CECP"
+        >
+          <span class="red-ico"
+            ><svg viewBox="0 0 24 24"
+              ><path
+                d="M22 12a10 10 0 1 0-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.3c-1.2 0-1.6.8-1.6 1.6V12h2.8l-.4 2.9h-2.4v7A10 10 0 0 0 22 12Z"
+              ></path></svg
+            ></span
+          ><span>@especialidadescecp</span>
+        </a>
+        <a
+          class="red-btn red-ig"
+          href={REDES.instagram}
+          target="_blank"
+          rel="noopener"
+          aria-label="Instagram de CECP"
+        >
+          <span class="red-ico"
+            ><svg viewBox="0 0 24 24"
+              ><path
+                d="M12 2.2c3.2 0 3.6 0 4.9.1 1.2.1 1.8.2 2.2.4.6.2 1 .5 1.4.9.4.4.7.8.9 1.4.2.4.4 1 .4 2.2.1 1.3.1 1.7.1 4.9s0 3.6-.1 4.9c-.1 1.2-.2 1.8-.4 2.2-.2.6-.5 1-.9 1.4-.4.4-.8.7-1.4.9-.4.2-1 .4-2.2.4-1.3.1-1.7.1-4.9.1s-3.6 0-4.9-.1c-1.2-.1-1.8-.2-2.2-.4-.6-.2-1-.5-1.4-.9-.4-.4-.7-.8-.9-1.4-.2-.4-.4-1-.4-2.2C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.9c.1-1.2.2-1.8.4-2.2.2-.6.5-1 .9-1.4.4-.4.8-.7 1.4-.9.4-.2 1-.4 2.2-.4C8.4 2.2 8.8 2.2 12 2.2Zm0 1.8c-3.1 0-3.5 0-4.8.1-1.1.1-1.5.2-1.8.3-.5.2-.8.4-1.1.7-.3.3-.5.6-.7 1.1-.1.3-.3.8-.3 1.8-.1 1.3-.1 1.7-.1 4.8s0 3.5.1 4.8c.1 1.1.2 1.5.3 1.8.2.5.4.8.7 1.1.3.3.6.5 1.1.7.3.1.8.3 1.8.3 1.3.1 1.7.1 4.8.1s3.5 0 4.8-.1c1.1-.1 1.5-.2 1.8-.3.5-.2.8-.4 1.1-.7.3-.3.5-.6.7-1.1.1-.3.3-.8.3-1.8.1-1.3.1-1.7.1-4.8s0-3.5-.1-4.8c-.1-1.1-.2-1.5-.3-1.8-.2-.5-.4-.8-.7-1.1-.3-.3-.6-.5-1.1-.7-.3-.1-.8-.3-1.8-.3-1.3-.1-1.7-.1-4.8-.1Zm0 3.1a5 5 0 1 1 0 9.9 5 5 0 0 1 0-9.9Zm0 8.1a3.1 3.1 0 1 0 0-6.3 3.1 3.1 0 0 0 0 6.3Zm6.3-8.3a1.2 1.2 0 1 1-2.3 0 1.2 1.2 0 0 1 2.3 0Z"
+              ></path></svg
+            ></span
+          ><span>@cecp_especialidades</span>
+        </a>
+        <a class="red-btn red-mail" href={`mailto:${EMAIL}`} aria-label="Correo de CECP">
+          <span class="red-ico"
+            ><svg viewBox="0 0 24 24" fill="#fff"
+              ><path
+                d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2Zm0 4-8 5-8-5V6l8 5 8-5v2Z"
+              ></path></svg
+            ></span
+          ><span>{EMAIL}</span>
+        </a>
+        <a class="red-btn red-tel" href={`tel:+${TELEFONO}`} aria-label="Llamar a CECP">
+          <span class="red-ico"
+            ><svg viewBox="0 0 24 24"
+              ><path
+                d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3A19.5 19.5 0 0 1 5.1 13a19.8 19.8 0 0 1-3-8.7A2 2 0 0 1 4 2.1h3a2 2 0 0 1 2 1.7c.1 1 .4 2 .7 2.8a2 2 0 0 1-.5 2.1L8 10a16 16 0 0 0 6 6l1.3-1.2a2 2 0 0 1 2.1-.5c.9.3 1.9.6 2.9.7a2 2 0 0 1 1.7 2Z"
+              ></path></svg
+            ></span
+          ><span>{TELEFONO_DISPLAY}</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .ubi-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    max-width: 760px;
+    gap: 44px;
+    align-items: center;
+  }
+  .ubi-info h2 {
+    font-size: clamp(26px, 3.2vw, 38px);
+    font-weight: 800;
+    margin-bottom: 20px;
+  }
+  .ubi-item {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 22px;
+    align-items: flex-start;
+  }
+  .ubi-ico {
+    width: 46px;
+    height: 46px;
+    flex: none;
+    border-radius: 13px;
+    background: var(--color-celeste-suave);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .ubi-item b {
+    font-family: var(--font-ui);
+    font-size: 15px;
+    display: block;
+  }
+  .ubi-item span {
+    font-size: 14px;
+    color: var(--color-gris);
+  }
+  .ubi-ctas {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-top: 28px;
+  }
+  .redes {
+    display: flex;
+    gap: 22px;
+    flex-wrap: wrap;
+    margin-top: 26px;
+  }
+  .red-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    text-align: center;
+    transition: transform 0.3s;
+  }
+  .red-btn:hover {
+    transform: translateY(-5px);
+  }
+  .red-ico {
+    width: 58px;
+    height: 58px;
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 12px 28px rgba(14, 58, 93, 0.18);
+  }
+  .red-ico svg {
+    width: 28px;
+    height: 28px;
+    fill: #fff;
+  }
+  .red-fb .red-ico {
+    background: #1877f2;
+  }
+  .red-ig .red-ico {
+    background: radial-gradient(circle at 30% 110%, #fdcb52 0%, #fd1d1d 55%, #833ab4 100%);
+  }
+  .red-mail .red-ico {
+    background: var(--color-azul);
+  }
+  .red-tel .red-ico {
+    background: var(--color-turquesa);
+  }
+  .red-btn > span:last-child {
+    font-family: var(--font-ui);
+    font-size: 11.5px;
+    font-weight: 500;
+    color: var(--color-gris);
+    max-width: 110px;
+    word-break: break-all;
+  }
+  @media (max-width: 980px) {
+    .redes {
+      justify-content: center;
+    }
+  }
+</style>

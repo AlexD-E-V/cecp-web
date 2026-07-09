@@ -1,0 +1,166 @@
+---
+import BotonWhatsApp from './BotonWhatsApp.astro';
+import { DIRECCION_CORTA } from '../config';
+---
+
+<section class="horario seccion" id="horario">
+  <div class="container-cecp">
+    <div class="sec-head reveal">
+      <span class="tag">Horario de atención</span>
+      <h2>Disponibilidad permanente para su tranquilidad</h2>
+      <p>
+        En CECP entendemos que la salud no tiene horario. Por ello, ponemos a su disposición
+        atención médica los siete días de la semana mediante cita previa.
+      </p>
+    </div>
+    <div class="hor-card reveal d2">
+      <div class="hor-head">
+        <div class="hico">
+          <svg
+            width="26"
+            height="26"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#fff"
+            stroke-width="2"
+            aria-hidden="true"
+          >
+            <circle cx="12" cy="12" r="9"></circle>
+            <path d="M12 7v5l3 3"></path>
+          </svg>
+        </div>
+        <div>
+          <h3>Horario CECP</h3>
+          <span>{DIRECCION_CORTA}</span>
+        </div>
+      </div>
+      <div class="hor-body">
+        <div class="hor-row">
+          <span class="dia"><span class="pto"></span>Atención en consultorio · Lunes a Viernes</span>
+          <span class="hora">7:00 AM — 4:00 PM</span>
+        </div>
+        <div class="hor-row">
+          <span class="dia"
+            ><span class="pto pto-azul"></span>Atención con cita previa · Lunes a Domingo</span
+          >
+          <span class="hora">24 horas / 7 días</span>
+        </div>
+        <div class="hor-nota">
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#1B6FAE"
+            stroke-width="2"
+            aria-hidden="true"
+            style="flex:none;margin-top:1px"
+          >
+            <circle cx="12" cy="12" r="9"></circle>
+            <path d="M12 8v4M12 16h.01"></path>
+          </svg>
+          <span>
+            <b>Estamos para usted las 24 horas, los 7 días de la semana.</b> Si requiere atención
+            fuera del horario regular de consultorio, con gusto coordinaremos su cita mediante
+            WhatsApp. Su bienestar es nuestra prioridad.
+          </span>
+        </div>
+        <div class="hor-cta">
+          <BotonWhatsApp icono={false}>Coordinar mi cita</BotonWhatsApp>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .horario {
+    background: var(--color-gris-claro);
+  }
+  .hor-card {
+    max-width: 760px;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 24px;
+    box-shadow: var(--shadow-suave);
+    border: 1px solid rgba(127, 196, 232, 0.3);
+    overflow: hidden;
+  }
+  .hor-head {
+    background: linear-gradient(135deg, var(--color-azul), var(--color-turquesa));
+    color: #fff;
+    padding: 28px 34px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .hor-head .hico {
+    width: 52px;
+    height: 52px;
+    flex: none;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.18);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .hor-head h3 {
+    font-size: 21px;
+  }
+  .hor-head span {
+    font-family: var(--font-ui);
+    font-size: 13px;
+    opacity: 0.85;
+    display: block;
+  }
+  .hor-body {
+    padding: 14px 34px 30px;
+  }
+  .hor-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--color-gris-claro);
+    font-family: var(--font-ui);
+  }
+  .hor-row:last-of-type {
+    border-bottom: none;
+  }
+  .hor-row .dia {
+    font-weight: 600;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .hor-row .pto {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--color-verde);
+  }
+  .hor-row .pto-azul {
+    background: var(--color-azul);
+  }
+  .hor-row .hora {
+    font-weight: 500;
+    font-size: 15px;
+    color: var(--color-azul);
+  }
+  .hor-nota {
+    margin-top: 18px;
+    background: var(--color-celeste-suave);
+    border-radius: 14px;
+    padding: 16px 20px;
+    font-size: 13.5px;
+    color: var(--color-azul-oscuro);
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  .hor-cta {
+    text-align: center;
+    margin-top: 24px;
+  }
+</style>

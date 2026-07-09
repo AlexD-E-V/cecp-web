@@ -1,0 +1,89 @@
+---
+import { Image } from 'astro:assets';
+import { especialidades } from '../data/especialidades';
+import TarjetaEspecialidad from './TarjetaEspecialidad.astro';
+import Particulas from './islas/Particulas.tsx';
+import { img } from '../assets/img';
+
+const espFondo = img('esp-fondo');
+
+// Los retardos de la animación reveal se reparten como en el diseño original
+const delays = [1, 2, 3, 1, 2, 3, 4];
+---
+
+<section class="esp seccion" id="especialidades">
+  <Image
+    class="esp-bg"
+    src={espFondo}
+    alt=""
+    aria-hidden="true"
+    width={620}
+    format="webp"
+    loading="lazy"
+  />
+  <Particulas
+    client:visible
+    nPC={34}
+    nMovil={18}
+    rMin={1.4}
+    rMax={3.4}
+    oMin={0.1}
+    oMax={0.22}
+    colPunto="#1B6FAE"
+    colCruz="#19B5A5"
+    plx={44}
+  />
+  <div class="container-cecp">
+    <div class="sec-head reveal">
+      <span class="tag">Nuestras especialidades</span>
+      <h2>Excelencia médica al servicio de su familia</h2>
+      <p>
+        Nuestro equipo de especialistas reúne más de 30 años de experiencia y trayectoria en sus
+        respectivas áreas. Cada consulta combina rigor clínico, calidez humana y tecnología
+        diagnóstica de vanguardia, con agendamiento inmediato a través de WhatsApp.
+      </p>
+    </div>
+    <div class="esp-grid">
+      {
+        especialidades.map((esp, i) => (
+          <TarjetaEspecialidad esp={esp} delay={delays[i % delays.length] ?? 1} />
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .esp {
+    background: linear-gradient(180deg, #fff 0%, var(--color-gris-claro) 100%);
+    overflow: hidden;
+  }
+  .esp > .container-cecp {
+    position: relative;
+    z-index: 2;
+  }
+  .esp :global(.esp-bg) {
+    position: absolute;
+    right: -8%;
+    top: 0;
+    width: min(600px, 64%);
+    height: auto;
+    opacity: 0.1;
+    z-index: 0;
+    pointer-events: none;
+    -webkit-mask-image: radial-gradient(72% 72% at 50% 45%, #000 50%, transparent 100%);
+    mask-image: radial-gradient(72% 72% at 50% 45%, #000 50%, transparent 100%);
+  }
+  .esp-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+  }
+  @media (max-width: 980px) {
+    .esp :global(.esp-bg) {
+      width: 92%;
+      right: -22%;
+      opacity: 0.08;
+    }
+  }
+</style>
