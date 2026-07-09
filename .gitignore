@@ -1,0 +1,12 @@
+node_modules/
+dist/
+.astro/
+npm-debug.log*
+.DS_Store
+
+# Archivos locales de asistentes/herramientas de IA: no aportan a quien clone el repo
+.claude/
+CLAUDE.md
+CLAUDE.local.md
+.cursor/
+.aider*

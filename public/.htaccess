@@ -1,0 +1,13 @@
+# Configuración para Hostinger (Apache/LiteSpeed)
+
+# Página de error 404 personalizada (generada por Astro en /404.html)
+ErrorDocument 404 /404.html
+
+# Los assets generados por el build llevan hash en el nombre: si el contenido
+# cambia, cambia la URL. Se pueden cachear un año como inmutables.
+# (favicon.png, og-cecp.jpg y robots.txt no entran: no llevan hash)
+<IfModule mod_headers.c>
+  <FilesMatch "\.(css|js|webp|woff2)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+</IfModule>

@@ -1,0 +1,400 @@
+---
+import { Image, getImage } from 'astro:assets';
+import BotonWhatsApp from './BotonWhatsApp.astro';
+import CarruselPortada from './islas/CarruselPortada.tsx';
+import { MAPS_URL } from '../config';
+import { img } from '../assets/img';
+
+const logo = img('logo-cecp');
+const fachada = img('fachada-cecp');
+const slideDoctora = img('slide-doctora');
+const slideProtesis = img('slide-protesis-dental');
+const slideEstetoscopio = img('slide-estetoscopio');
+
+// Fotos del carrusel optimizadas (WebP responsivo) — las URLs se pasan a la isla React
+const slidesFuente = [
+  {
+    img: fachada,
+    alt: 'Fachada del centro médico CECP en Atarazana, Guayaquil, con cielo despejado',
+    caption: 'Nuestro centro médico en Atarazana',
+  },
+  {
+    img: slideDoctora,
+    alt: 'Doctora de CECP con estetoscopio, atención cálida y profesional',
+    caption: 'Atención cálida y profesional',
+  },
+  {
+    img: slideProtesis,
+    alt: 'Modelo de prótesis dental sobre implantes, odontología CECP',
+    caption: 'Odontología de excelencia',
+  },
+  {
+    img: slideEstetoscopio,
+    alt: 'Profesional médico de CECP con estetoscopio en mano',
+    caption: 'Especialistas a tu servicio',
+  },
+];
+const slides = await Promise.all(
+  slidesFuente.map(async (s) => ({
+    // width = ancho original: solo conversión a WebP, nunca re-escalar hacia arriba
+    src: (await getImage({ src: s.img, width: s.img.width, format: 'webp' })).src,
+    alt: s.alt,
+    caption: s.caption,
+  }))
+);
+
+const galeria = [
+  { img: slideDoctora, alt: 'Doctora de CECP con estetoscopio, atención cercana y profesional' },
+  { img: slideProtesis, alt: 'Modelo de prótesis dental sobre implantes en manos de una odontóloga de CECP' },
+  { img: slideEstetoscopio, alt: 'Estetoscopio en manos de una profesional médica de CECP' },
+];
+---
+
+<section class="hero seccion" id="inicio">
+  <div class="orb orb1" data-plx="0.25"></div>
+  <div class="orb orb2" data-plx="0.4"></div>
+  <div class="orb orb3" data-plx="0.55"></div>
+  <div class="cell c1" data-plx="0.3"></div>
+  <div class="cell c2" data-plx="0.5"></div>
+  <div class="cell c3" data-plx="0.35"></div>
+  <div class="container-cecp hero-grid">
+    <div>
+      <span class="eyebrow"
+        ><span class="dot"></span> Atarazana · Guayaquil · Cerca de SOLCA y Metrovía</span
+      >
+      <h1 class="sr-only">
+        CECP — Centro de Especialidades Médicas en Guayaquil | Pioneros en Cardiogenética
+      </h1>
+      <Image
+        class="hero-logo"
+        data-plx="0.1"
+        src={logo}
+        alt="CECP Centro de Especialidades"
+        width={460}
+        format="webp"
+        loading="eager"
+        fetchpriority="high"
+      />
+      <p class="lead">
+        Somos el <b>primer centro médico de Guayaquil especializado en Cardiogenética</b>, pioneros
+        en el abordaje de condiciones complejas como la <b>Amiloidosis Cardíaca</b>. Ofrecemos
+        atención integral en pediatría y múltiples especialidades, con <b
+          >tecnología cardiovascular de última generación respaldada por inteligencia artificial</b
+        > para diagnósticos precisos y tratamientos personalizados.
+      </p>
+      <div class="hero-ctas">
+        <BotonWhatsApp>Agendar por WhatsApp</BotonWhatsApp>
+        <a class="btn btn-azul" href="#especialidades">Ver especialidades</a>
+        <a class="btn btn-linea" href={MAPS_URL} target="_blank" rel="noopener">📍 Cómo llegar</a>
+      </div>
+      <div class="hero-datos">
+        <div class="dato"><b>7+</b><span>Especialidades médicas</span></div>
+        <div class="dato"><b>30s</b><span>Para agendar tu cita</span></div>
+        <div class="dato"><b>100%</b><span>Atención familiar</span></div>
+      </div>
+    </div>
+    <div class="hero-visual" data-plx="-0.12">
+      <CarruselPortada client:load slides={slides} />
+      <div class="mini-galeria" data-plx="-0.06">
+        {
+          galeria.map((g, i) => (
+            <div class:list={['mg', 'reveal', `d${i + 2}`]}>
+              <Image src={g.img} alt={g.alt} width={340} format="webp" loading="lazy" />
+            </div>
+          ))
+        }
+      </div>
+      <div class="chip chip1">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#19B5A5" stroke-width="2" aria-hidden="true"
+          ><path d="M20 6 9 17l-5-5"></path></svg
+        > Pioneros en Cardiogenética
+      </div>
+      <div class="chip chip2">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#1B6FAE" stroke-width="2" aria-hidden="true"
+          ><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 3"></path></svg
+        > IA de precisión diagnóstica
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Parallax suave de los elementos decorativos del hero
+  const els = document.querySelectorAll<HTMLElement>('[data-plx]');
+  if (!matchMedia('(prefers-reduced-motion: reduce)').matches && els.length) {
+    let ticking = false;
+    const run = () => {
+      const y = scrollY;
+      els.forEach((el) => {
+        el.style.transform = `translateY(${y * parseFloat(el.dataset.plx || '0') * -0.35}px)`;
+      });
+      ticking = false;
+    };
+    addEventListener(
+      'scroll',
+      () => {
+        if (!ticking) {
+          requestAnimationFrame(run);
+          ticking = true;
+        }
+      },
+      { passive: true }
+    );
+  }
+</script>
+
+<style>
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    background: linear-gradient(160deg, var(--color-celeste-suave) 0%, #fff 45%, #eff9f7 100%);
+    overflow: hidden;
+    padding: 130px 0 90px;
+  }
+  .orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(2px);
+    pointer-events: none;
+    will-change: transform;
+  }
+  .orb1 {
+    width: 420px;
+    height: 420px;
+    right: -120px;
+    top: -80px;
+    background: radial-gradient(
+      circle at 30% 30%,
+      rgba(127, 196, 232, 0.55),
+      rgba(127, 196, 232, 0) 70%
+    );
+  }
+  .orb2 {
+    width: 300px;
+    height: 300px;
+    left: -90px;
+    bottom: 10%;
+    background: radial-gradient(
+      circle at 40% 40%,
+      rgba(25, 181, 165, 0.3),
+      rgba(25, 181, 165, 0) 70%
+    );
+  }
+  .orb3 {
+    width: 180px;
+    height: 180px;
+    right: 22%;
+    bottom: 6%;
+    background: radial-gradient(
+      circle at 40% 40%,
+      rgba(27, 111, 174, 0.25),
+      rgba(27, 111, 174, 0) 70%
+    );
+  }
+  .cell {
+    position: absolute;
+    border: 2px solid rgba(27, 111, 174, 0.18);
+    border-radius: 50%;
+    pointer-events: none;
+    will-change: transform;
+  }
+  .cell::after {
+    content: '';
+    position: absolute;
+    inset: 26%;
+    border-radius: 50%;
+    background: rgba(127, 196, 232, 0.25);
+  }
+  .c1 {
+    width: 64px;
+    height: 64px;
+    top: 22%;
+    left: 8%;
+    animation: float 7s ease-in-out infinite;
+  }
+  .c2 {
+    width: 40px;
+    height: 40px;
+    top: 64%;
+    left: 16%;
+    animation: float 9s 1s ease-in-out infinite;
+  }
+  .c3 {
+    width: 52px;
+    height: 52px;
+    top: 30%;
+    right: 12%;
+    animation: float 8s 0.5s ease-in-out infinite;
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 56px;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+  }
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    background: #fff;
+    border: 1px solid rgba(27, 111, 174, 0.18);
+    border-radius: 50px;
+    padding: 8px 18px;
+    font-family: var(--font-ui);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--color-azul);
+    box-shadow: var(--shadow-suave);
+  }
+  .eyebrow .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-turquesa);
+    animation: pulse 1.8s infinite;
+  }
+  @keyframes pulse {
+    0%,
+    100% {
+      box-shadow: 0 0 0 0 rgba(25, 181, 165, 0.5);
+    }
+    55% {
+      box-shadow: 0 0 0 8px rgba(25, 181, 165, 0);
+    }
+  }
+  .hero-logo {
+    width: min(400px, 78%);
+    height: auto;
+    display: block;
+    margin: 26px 0 6px;
+    filter: drop-shadow(0 14px 30px rgba(27, 111, 174, 0.22));
+  }
+  .lead {
+    font-size: 17px;
+    color: var(--color-gris);
+    max-width: 540px;
+    margin: 18px 0 30px;
+  }
+  .lead b {
+    color: var(--color-azul-oscuro);
+  }
+  .hero-ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+  .hero-datos {
+    display: flex;
+    gap: 34px;
+    margin-top: 44px;
+  }
+  .dato b {
+    font-family: var(--font-display);
+    font-size: 28px;
+    color: var(--color-azul);
+    display: block;
+  }
+  .dato span {
+    font-size: 13px;
+    color: var(--color-gris);
+  }
+  .hero-visual {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .mini-galeria {
+    display: flex;
+    gap: 12px;
+    margin-top: 16px;
+    justify-content: center;
+    width: min(500px, 100%);
+  }
+  .mini-galeria .mg {
+    width: 32%;
+    aspect-ratio: 1;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 14px 34px rgba(14, 58, 93, 0.18);
+    border: 1px solid rgba(127, 196, 232, 0.35);
+    animation: float 7s ease-in-out infinite;
+  }
+  .mini-galeria .mg:nth-child(2) {
+    animation-delay: 1.2s;
+  }
+  .mini-galeria .mg:nth-child(3) {
+    animation-delay: 2.4s;
+  }
+  .mini-galeria img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition:
+      transform 0.5s cubic-bezier(0.2, 0.7, 0.3, 1),
+      filter 0.5s;
+  }
+  .mini-galeria .mg:hover img {
+    transform: scale(1.09);
+    filter: brightness(1.06) saturate(1.08);
+  }
+  .chip {
+    position: absolute;
+    background: #fff;
+    border-radius: 14px;
+    padding: 10px 16px;
+    box-shadow: var(--shadow-suave);
+    font-family: var(--font-ui);
+    font-size: 12.5px;
+    font-weight: 500;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    z-index: 3;
+  }
+  .chip svg {
+    width: 18px;
+    height: 18px;
+  }
+  .chip1 {
+    top: 9%;
+    left: -4%;
+    animation: float 6s ease-in-out infinite;
+  }
+  .chip2 {
+    bottom: 16%;
+    right: -5%;
+    animation: float 7s 1s ease-in-out infinite;
+  }
+  @media (max-width: 980px) {
+    .hero-grid {
+      grid-template-columns: 1fr;
+      gap: 44px;
+      text-align: center;
+    }
+    .hero-logo {
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .lead {
+      margin: 18px auto 30px;
+    }
+    .hero-ctas,
+    .hero-datos {
+      justify-content: center;
+    }
+  }
+  @media (max-width: 560px) {
+    .hero-datos {
+      gap: 20px;
+    }
+    .hero-ctas :global(.btn) {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+</style>

@@ -1,0 +1,174 @@
+---
+import {
+  DIRECCION_CORTA,
+  EMAIL,
+  REDES,
+} from '../config';
+
+const anio = new Date().getFullYear();
+
+const ESPECIALIDADES_LINKS = [
+  'Cardiología',
+  'Pediatría / Neonatología',
+  'Ginecología / Obstetricia',
+  'Odontología',
+  'Medicina General',
+];
+---
+
+<footer>
+  <div class="container-cecp">
+    <div class="f-grid">
+      <div class="f-brand">
+        <b>CECP</b>
+        <p>
+          Centro de Especialidades Médicas en Guayaquil. Atención médica especializada para toda la
+          familia con equipos actualizados de primera generación.
+        </p>
+        <div class="f-redes">
+          <a href={REDES.facebook} target="_blank" rel="noopener" aria-label="Facebook">
+            <svg viewBox="0 0 24 24"
+              ><path
+                d="M22 12a10 10 0 1 0-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.3c-1.2 0-1.6.8-1.6 1.6V12h2.8l-.4 2.9h-2.4v7A10 10 0 0 0 22 12Z"
+              /></svg
+            >
+          </a>
+          <a href={REDES.instagram} target="_blank" rel="noopener" aria-label="Instagram">
+            <svg viewBox="0 0 24 24"
+              ><path
+                d="M12 2.2c3.2 0 3.6 0 4.9.1 1.2.1 1.8.2 2.2.4.6.2 1 .5 1.4.9.4.4.7.8.9 1.4.2.4.4 1 .4 2.2.1 1.3.1 1.7.1 4.9s0 3.6-.1 4.9c-.1 1.2-.2 1.8-.4 2.2-.2.6-.5 1-.9 1.4-.4.4-.8.7-1.4.9-.4.2-1 .4-2.2.4-1.3.1-1.7.1-4.9.1s-3.6 0-4.9-.1c-1.2-.1-1.8-.2-2.2-.4-.6-.2-1-.5-1.4-.9-.4-.4-.7-.8-.9-1.4-.2-.4-.4-1-.4-2.2C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.9c.1-1.2.2-1.8.4-2.2.2-.6.5-1 .9-1.4.4-.4.8-.7 1.4-.9.4-.2 1-.4 2.2-.4C8.4 2.2 8.8 2.2 12 2.2Zm0 1.8c-3.1 0-3.5 0-4.8.1-1.1.1-1.5.2-1.8.3-.5.2-.8.4-1.1.7-.3.3-.5.6-.7 1.1-.1.3-.3.8-.3 1.8-.1 1.3-.1 1.7-.1 4.8s0 3.5.1 4.8c.1 1.1.2 1.5.3 1.8.2.5.4.8.7 1.1.3.3.6.5 1.1.7.3.1.8.3 1.8.3 1.3.1 1.7.1 4.8.1s3.5 0 4.8-.1c1.1-.1 1.5-.2 1.8-.3.5-.2.8-.4 1.1-.7.3-.3.5-.6.7-1.1.1-.3.3-.8.3-1.8.1-1.3.1-1.7.1-4.8s0-3.5-.1-4.8c-.1-1.1-.2-1.5-.3-1.8-.2-.5-.4-.8-.7-1.1-.3-.3-.6-.5-1.1-.7-.3-.1-.8-.3-1.8-.3-1.3-.1-1.7-.1-4.8-.1Zm0 3.1a5 5 0 1 1 0 9.9 5 5 0 0 1 0-9.9Zm0 8.1a3.1 3.1 0 1 0 0-6.3 3.1 3.1 0 0 0 0 6.3Zm6.3-8.3a1.2 1.2 0 1 1-2.3 0 1.2 1.2 0 0 1 2.3 0Z"
+              /></svg
+            >
+          </a>
+          <a href={`mailto:${EMAIL}`} aria-label="Correo">
+            <svg viewBox="0 0 24 24"
+              ><path
+                d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2Zm0 4-8 5-8-5V6l8 5 8-5v2Z"
+              /></svg
+            >
+          </a>
+        </div>
+      </div>
+      <div>
+        <h4>Especialidades</h4>
+        {ESPECIALIDADES_LINKS.map((n) => <a href="#especialidades">{n}</a>)}
+      </div>
+      <div>
+        <h4>Enlaces</h4>
+        <a href="#horario">Horario</a>
+        <a href="#testimonios">Opiniones</a>
+        <a href="#contacto">Contacto</a>
+      </div>
+      <div>
+        <h4>Legal</h4>
+        <a href="/privacidad">Política de privacidad</a>
+        <a href="/terminos">Términos y condiciones</a>
+        <a href="/privacidad#datos-pacientes">Protección de datos de pacientes</a>
+      </div>
+    </div>
+    <div class="aviso">
+      ⚕️ <b>Aviso:</b> La información publicada en este sitio tiene fines educativos y no reemplaza
+      una consulta médica profesional. Ante cualquier síntoma, acude a un especialista.
+    </div>
+    <div class="f-low">
+      <span>© {anio} CECP · Centro de Especialidades. Todos los derechos reservados.</span>
+      <span>{DIRECCION_CORTA}</span>
+    </div>
+  </div>
+</footer>
+
+<style>
+  footer {
+    background: var(--color-azul-oscuro);
+    color: rgba(255, 255, 255, 0.75);
+    padding: 70px 0 30px;
+    margin-top: 0;
+  }
+  .f-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr 1.2fr;
+    gap: 40px;
+    margin-bottom: 44px;
+  }
+  footer h4 {
+    color: #fff;
+    font-family: var(--font-ui);
+    font-size: 15px;
+    margin-bottom: 18px;
+  }
+  footer a {
+    display: block;
+    font-size: 14px;
+    padding: 5px 0;
+    transition: color 0.25s;
+  }
+  footer a:hover {
+    color: var(--color-celeste);
+  }
+  .f-brand b {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 26px;
+    color: #fff;
+    letter-spacing: 0.03em;
+  }
+  .f-brand p {
+    font-size: 13.5px;
+    margin-top: 12px;
+    max-width: 280px;
+  }
+  .f-redes {
+    display: flex;
+    gap: 14px;
+    margin-top: 16px;
+  }
+  .f-redes a {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition:
+      background 0.3s,
+      transform 0.3s;
+    padding: 0;
+  }
+  .f-redes a:hover {
+    background: rgba(255, 255, 255, 0.22);
+    transform: translateY(-3px);
+  }
+  .f-redes svg {
+    width: 19px;
+    height: 19px;
+    fill: #fff;
+  }
+  .aviso {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 14px;
+    padding: 16px 20px;
+    font-size: 12.5px;
+    margin-bottom: 30px;
+  }
+  .f-low {
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    padding-top: 24px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    font-size: 12.5px;
+  }
+  @media (max-width: 980px) {
+    .f-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  @media (max-width: 560px) {
+    .f-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

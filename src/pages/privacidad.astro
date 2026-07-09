@@ -1,0 +1,81 @@
+---
+import Base from '../layouts/Base.astro';
+import { EMAIL, NOMBRE_LEGAL, TELEFONO_DISPLAY } from '../config';
+---
+
+<!--
+  PLACEHOLDER LEGAL: este texto es una estructura de partida y NO fue redactado
+  por un abogado. Al tratarse de un centro médico (datos de salud = datos sensibles
+  bajo la LOPDP de Ecuador), este contenido debe ser revisado y completado por un
+  profesional legal antes del lanzamiento con dominio propio.
+-->
+<Base
+  title="Política de privacidad | CECP Centro de Especialidades"
+  description="Política de privacidad y protección de datos de pacientes de CECP, Centro de Especialidades Médicas en Guayaquil."
+  noindex
+>
+  <main class="legal container-cecp">
+    <h1>Política de privacidad</h1>
+    <p class="pendiente">
+      ⚠️ Documento en preparación: esta política será revisada por un profesional legal antes de su
+      publicación definitiva.
+    </p>
+
+    <h2>1. Responsable del tratamiento</h2>
+    <p>
+      {NOMBRE_LEGAL}, con domicilio en Guayaquil, Ecuador, es responsable del tratamiento de los
+      datos personales recogidos a través de este sitio web y de sus canales de contacto (WhatsApp,
+      teléfono y correo electrónico).
+    </p>
+
+    <h2>2. Datos que se recogen</h2>
+    <p>
+      Este sitio web no utiliza formularios propios: el contacto se realiza a través de WhatsApp,
+      llamadas telefónicas o correo electrónico. Los datos que usted comparta por esos canales
+      (nombre, teléfono, motivo de consulta) se utilizan exclusivamente para coordinar su atención
+      médica.
+    </p>
+
+    <h2 id="datos-pacientes">3. Protección de datos de pacientes</h2>
+    <p>
+      Los datos de salud son datos sensibles conforme a la Ley Orgánica de Protección de Datos
+      Personales (LOPDP) del Ecuador. La información clínica de los pacientes se gestiona
+      únicamente en el contexto de la atención médica y no se comparte con terceros sin
+      consentimiento expreso, salvo obligación legal.
+    </p>
+
+    <h2>4. Sus derechos</h2>
+    <p>
+      Usted puede ejercer sus derechos de acceso, rectificación, eliminación y oposición
+      escribiendo a {EMAIL} o llamando al {TELEFONO_DISPLAY}.
+    </p>
+  </main>
+</Base>
+
+<style>
+  .legal {
+    padding: 130px 0 90px;
+    max-width: 760px;
+  }
+  .legal h1 {
+    font-size: clamp(28px, 3.6vw, 42px);
+    font-weight: 800;
+    margin-bottom: 24px;
+  }
+  .legal h2 {
+    font-size: 20px;
+    font-weight: 700;
+    margin: 32px 0 10px;
+  }
+  .legal p {
+    color: var(--color-gris);
+    font-size: 15px;
+  }
+  .pendiente {
+    background: var(--color-celeste-suave);
+    border-radius: 14px;
+    padding: 14px 18px;
+    color: var(--color-azul-oscuro) !important;
+    font-size: 13.5px !important;
+  }
+</style>

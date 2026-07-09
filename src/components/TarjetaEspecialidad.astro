@@ -1,0 +1,226 @@
+---
+import { Image, getImage } from 'astro:assets';
+import type { Especialidad } from '../data/especialidades';
+import BotonWhatsApp from './BotonWhatsApp.astro';
+import ModalProcedimientos from './islas/ModalProcedimientos.tsx';
+import { waLink } from '../config';
+
+interface Props {
+  esp: Especialidad;
+  /** Retardo de la animación reveal (d1..d4) */
+  delay: number;
+}
+
+const { esp, delay } = Astro.props;
+
+// Fotos de equipos del modal, optimizadas y pasadas a la isla como URLs
+const equipos = esp.modal?.equipos
+  ? await Promise.all(
+      esp.modal.equipos.map(async (eq) => ({
+        src: (await getImage({ src: eq.foto, width: 480, format: 'webp' })).src,
+        alt: eq.alt,
+        nombre: eq.nombre,
+      }))
+    )
+  : undefined;
+---
+
+<div class:list={['card', 'reveal', `d${delay}`]}>
+  <div class="card-img">
+    <span class:list={['badge3d', esp.badge]} aria-hidden="true" set:html={esp.badgeSvg} />
+    {
+      esp.foto ? (
+        <Image
+          src={esp.foto}
+          alt={esp.fotoAlt ?? ''}
+          width={560}
+          format="webp"
+          loading="lazy"
+          style={esp.fotoPosicion ? `object-position:${esp.fotoPosicion}` : undefined}
+        />
+      ) : (
+        <svg viewBox="0 0 400 160" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+          <defs>
+            <linearGradient id={`g-${esp.id}`} x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#F0EFFB" />
+              <stop offset="1" stop-color="#E2E0F5" />
+            </linearGradient>
+          </defs>
+          <rect width="400" height="160" fill={`url(#g-${esp.id})`} />
+          <circle cx="352" cy="38" r="44" fill="#8B87D8" opacity=".2" />
+          <circle cx="52" cy="124" r="40" fill="#7FC4E8" opacity=".22" />
+          <path
+            d="M200 24 l 44 16 v 34 c 0 30 -18 48 -44 58 c -26 -10 -44 -28 -44 -58 v -34 Z"
+            fill="#fff"
+            stroke="#5B55C0"
+            stroke-width="6"
+          />
+          <path
+            d="M182 76 l 12 12 24 -26"
+            fill="none"
+            stroke="#19B5A5"
+            stroke-width="7"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <circle cx="120" cy="52" r="10" fill="none" stroke="#8B87D8" stroke-width="4" />
+          <circle cx="120" cy="52" r="3.5" fill="#8B87D8" />
+          <circle cx="292" cy="110" r="12" fill="none" stroke="#7FC4E8" stroke-width="4" />
+          <circle cx="292" cy="110" r="4" fill="#7FC4E8" />
+        </svg>
+      )
+    }
+  </div>
+  <div class="card-body">
+    <h3>{esp.nombre}</h3>
+    <span class="doc">{esp.doctor}</span>
+    <p set:html={esp.descripcion} />
+    {
+      esp.modal ? (
+        <ModalProcedimientos
+          client:visible
+          nombre={esp.nombre}
+          doctor={esp.doctor}
+          icono={esp.modal.icono}
+          intro={esp.modal.intro}
+          procedimientos={esp.modal.procedimientos}
+          equiposTitulo={esp.modal.equiposTitulo}
+          equipos={equipos}
+          waHref={waLink(esp.mensajeWhatsApp)}
+        />
+      ) : (
+        <BotonWhatsApp mensaje={esp.mensajeWhatsApp}>Agendar cita</BotonWhatsApp>
+      )
+    }
+  </div>
+</div>
+
+<style>
+  .card {
+    background: #fff;
+    border-radius: var(--radius-tarjeta);
+    padding: 0 0 28px;
+    box-shadow: var(--shadow-suave);
+    border: 1px solid rgba(127, 196, 232, 0.25);
+    position: relative;
+    overflow: hidden;
+    transition:
+      transform 0.35s cubic-bezier(0.2, 0.7, 0.3, 1),
+      box-shadow 0.35s;
+  }
+  .card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 26px 60px rgba(14, 58, 93, 0.16);
+  }
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    z-index: 3;
+    background: linear-gradient(90deg, var(--color-azul), var(--color-turquesa));
+    opacity: 0;
+    transition: opacity 0.35s;
+  }
+  .card:hover::before {
+    opacity: 1;
+  }
+  .card-img {
+    height: clamp(160px, 15vw, 215px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+  }
+  .card-img :global(img),
+  .card-img svg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition:
+      transform 0.5s cubic-bezier(0.2, 0.7, 0.3, 1),
+      filter 0.5s;
+  }
+  .card:hover .card-img :global(img),
+  .card:hover .card-img svg {
+    transform: scale(1.07);
+    filter: brightness(1.06) saturate(1.08);
+  }
+  .card-body {
+    padding: 24px 28px 0;
+  }
+  .card h3 {
+    font-size: 19px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .card .doc {
+    font-family: var(--font-ui);
+    font-size: 13px;
+    color: var(--color-turquesa);
+    font-weight: 500;
+    margin-bottom: 10px;
+    display: block;
+  }
+  .card p {
+    font-size: 14px;
+    color: var(--color-gris);
+    margin-bottom: 20px;
+    min-height: 64px;
+  }
+  .card-body :global(.btn) {
+    padding: 10px 20px;
+    font-size: 13.5px;
+  }
+
+  /* Insignias 3D minimalistas por especialidad */
+  .badge3d {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 46px;
+    height: 46px;
+    border-radius: 14px;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform-style: preserve-3d;
+    animation: badge-flot 5.5s ease-in-out infinite;
+    box-shadow: 0 12px 26px rgba(14, 58, 93, 0.32);
+  }
+  .badge3d :global(svg) {
+    width: 24px;
+    height: 24px;
+    transform: translateZ(5px);
+  }
+  .badge3d::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 14px;
+    background: inherit;
+    filter: brightness(0.62);
+    transform: translateZ(-7px);
+  }
+  @keyframes badge-flot {
+    0%,
+    100% {
+      transform: translateY(0) rotateX(10deg) rotateY(-16deg);
+    }
+    50% {
+      transform: translateY(-7px) rotateX(-8deg) rotateY(16deg);
+    }
+  }
+  .b-car { background: linear-gradient(150deg, #f0647e, #d9435e); }
+  .b-ped { background: linear-gradient(150deg, #7fc4e8, #4fa3d8); animation-delay: 0.5s; }
+  .b-gin { background: linear-gradient(150deg, #e86fa4, #c4527e); animation-delay: 1s; }
+  .b-odo { background: linear-gradient(150deg, #22c9b8, #0e8a7d); animation-delay: 1.5s; }
+  .b-med { background: linear-gradient(150deg, #2e86c9, #1b6fae); animation-delay: 2s; }
+  .b-gen { background: linear-gradient(150deg, #3fae8c, #2e8a6d); animation-delay: 2.5s; }
+  .b-aut { background: linear-gradient(150deg, #8b87d8, #5b55c0); animation-delay: 3s; }
+</style>
