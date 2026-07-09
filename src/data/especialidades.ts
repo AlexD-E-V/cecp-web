@@ -73,8 +73,8 @@ export const especialidades: Especialidad[] = [
     descripcion:
       '¿Buscas un <b>cardiólogo en Guayaquil</b>? Prevención, diagnóstico y tratamiento de enfermedades del corazón: ECG, ecocardiograma, Holter 24h y estudios de cardiogenética.',
     foto: espCardiologia,
-    fotoAlt: 'Modelo anatómico del corazón humano en manos de un especialista de cardiología en Guayaquil',
-    fotoPosicion: 'center 34%',
+    fotoAlt: 'Dr. Vicente Sánchez Crespo, cardiólogo de CECP en Guayaquil, junto a un modelo anatómico del corazón en su consultorio',
+    fotoPosicion: 'center 24%',
     badge: 'b-car',
     badgeSvg:
       '<svg viewBox="0 0 24 24"><path d="M12 21 C6 16 3 12 3 8.5 A4.5 4.5 0 0 1 12 6 A4.5 4.5 0 0 1 21 8.5 C21 12 18 16 12 21Z" fill="#fff"/></svg>',
