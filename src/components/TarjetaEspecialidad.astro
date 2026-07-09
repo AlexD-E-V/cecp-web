@@ -74,6 +74,7 @@ const equipos = esp.modal?.equipos
   <div class="card-body">
     <h3>{esp.nombre}</h3>
     <span class="doc">{esp.doctor}</span>
+    {esp.credenciales && <span class="credenciales">{esp.credenciales}</span>}
     <p set:html={esp.descripcion} />
     {
       esp.modal ? (
@@ -165,6 +166,14 @@ const equipos = esp.modal?.equipos
     font-weight: 500;
     margin-bottom: 10px;
     display: block;
+  }
+  .card .credenciales {
+    display: block;
+    font-family: var(--font-ui);
+    font-size: 11.5px;
+    line-height: 1.5;
+    color: var(--color-gris);
+    margin: -6px 0 10px;
   }
   .card p {
     font-size: 14px;

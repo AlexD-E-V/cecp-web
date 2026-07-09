@@ -42,6 +42,8 @@ export interface Especialidad {
   id: string;
   nombre: string;
   doctor: string;
+  /** Formación y títulos del profesional (línea fina bajo el nombre) */
+  credenciales?: string;
   /** Especialidad según schema.org (para el JSON-LD de Physician) */
   schemaEspecialidad?: string;
   /** Tipo schema.org del profesional (Physician por defecto) */
@@ -65,6 +67,8 @@ export const especialidades: Especialidad[] = [
     id: 'cardio',
     nombre: 'Cardiología',
     doctor: 'Dr. Vicente Sánchez Crespo',
+    credenciales:
+      'Experto en Medicina Genética y Genómica (UCAM, España) · Enfermedades autoinmunes y gestión en salud pública (Johns Hopkins University) · Consultor sénior',
     schemaEspecialidad: 'Cardiovascular',
     descripcion:
       '¿Buscas un <b>cardiólogo en Guayaquil</b>? Prevención, diagnóstico y tratamiento de enfermedades del corazón: ECG, ecocardiograma, Holter 24h y estudios de cardiogenética.',
@@ -105,7 +109,7 @@ export const especialidades: Especialidad[] = [
     doctor: 'Dra. Ana Tapia',
     schemaEspecialidad: 'Pediatric',
     descripcion:
-      'El mejor <b>pediatra en Guayaquil</b> para tu familia. Cuidado experto de recién nacidos, niños y adolescentes, con control de crecimiento y desarrollo.',
+      'Pediatra con <b>más de 30 años de experiencia</b>, dedicada a acompañar a las familias en el control de la salud, crecimiento y desarrollo de sus niños, desde el nacimiento hasta la adolescencia.',
     foto: espPediatria,
     fotoAlt: 'Pediatra atendiendo a una niña pequeña en consulta de pediatría en Guayaquil',
     badge: 'b-ped',

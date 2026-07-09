@@ -9,19 +9,22 @@ import { img } from '../assets/img';
 
 const logo = img('logo-cecp');
 
+// Anclas absolutas a la raíz (/#seccion): desde páginas secundarias
+// (/privacidad, /404...) llevan de vuelta al home; en el home se comportan
+// como anclas normales, sin recarga.
 const NAV_LINKS = [
-  { href: '#inicio', label: 'Inicio' },
-  { href: '#cardiogenetica', label: 'Cardiogenética' },
-  { href: '#especialidades', label: 'Especialidades' },
-  { href: '#horario', label: 'Horario' },
-  { href: '#testimonios', label: 'Opiniones' },
-  { href: '#contacto', label: 'Contacto' },
+  { href: '/#inicio', label: 'Inicio' },
+  { href: '/#cardiogenetica', label: 'Cardiogenética' },
+  { href: '/#especialidades', label: 'Especialidades' },
+  { href: '/#horario', label: 'Horario' },
+  { href: '/#testimonios', label: 'Opiniones' },
+  { href: '/#contacto', label: 'Contacto' },
 ];
 ---
 
 <header id="header">
   <div class="container-cecp nav">
-    <a href="#inicio" class="brand" aria-label="CECP Inicio">
+    <a href="/#inicio" class="brand" aria-label="CECP Inicio">
       <Image class="brand-mark" src={logo} alt="" width={92} format="webp" />
       <span class="brand-txt"><b>CECP</b><small>Centro de Especialidades</small></span>
     </a>
@@ -38,7 +41,7 @@ const NAV_LINKS = [
 </header>
 <div class="mobile-menu" id="mmenu">
   {NAV_LINKS.map((l) => <a href={l.href}>{l.label}</a>)}
-  <a href="#contacto" class="mm-wa">💬 Agendar por WhatsApp</a>
+  <a href="/#contacto" class="mm-wa">💬 Agendar por WhatsApp</a>
 </div>
 
 <script>
