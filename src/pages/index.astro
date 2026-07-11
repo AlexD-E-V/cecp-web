@@ -77,11 +77,13 @@ const schemaClinica = {
   email: EMAIL,
 };
 
-// Médicos: generados desde src/data/especialidades.ts (una sola fuente de verdad)
+// Médicos: generados desde src/data/especialidades.ts (una sola fuente de verdad).
+// Solo entran perfiles con especialidad schema.org declarada: los profesionales
+// no médicos (p. ej. licenciados) no deben marcarse como Physician.
 const schemaMedicos = {
   '@context': 'https://schema.org',
   '@graph': especialidades
-    .filter((e) => e.doctor !== 'Equipo CECP')
+    .filter((e) => e.doctor !== 'Equipo CECP' && e.schemaEspecialidad)
     .map((e) => ({
       '@type': e.schemaTipo ?? 'Physician',
       name: e.doctor,

@@ -220,6 +220,24 @@ export const especialidades: Especialidad[] = [
     mensajeWhatsApp: 'Hola CECP, quiero información sobre asesoría genética.',
   },
   {
+    id: 'pnl',
+    nombre: 'Programación Neurolingüística y Estrés Oxidativo',
+    doctor: 'Lcdo. David A. Sánchez Tapia',
+    // PENDIENTE DE CONFIRMAR con el profesional: qué formación corresponde a
+    // cada institución (el mensaje original solo listó las instituciones)
+    credenciales:
+      'Programación Neurolingüística (Esneca Business School, España) · Formación en Saval University',
+    descripcion:
+      'Acompañamiento en <b>programación neurolingüística (PNL)</b> y manejo del estrés oxidativo: herramientas para el bienestar emocional, los hábitos saludables y el equilibrio entre mente y cuerpo.',
+    foto: img('esp-pnl'),
+    fotoAlt: 'Lcdo. David A. Sánchez Tapia, especialista en programación neurolingüística de CECP',
+    badge: 'b-pnl',
+    badgeSvg:
+      '<svg viewBox="0 0 24 24"><circle cx="12" cy="5.5" r="2.1" fill="#fff"/><circle cx="5.5" cy="12" r="2.1" fill="#fff"/><circle cx="18.5" cy="12" r="2.1" fill="#fff"/><circle cx="12" cy="18.5" r="2.1" fill="#fff"/><path d="M12 7.6v8.8M7.4 10.7l9.2 2.6M16.6 10.7l-9.2 2.6" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/></svg>',
+    mensajeWhatsApp:
+      'Hola CECP, quiero información sobre programación neurolingüística (PNL) con el Lcdo. David Sánchez Tapia.',
+  },
+  {
     id: 'autoinmunes',
     nombre: 'Enfermedades Autoinmunes',
     doctor: 'Equipo CECP',
