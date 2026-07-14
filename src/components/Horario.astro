@@ -10,7 +10,8 @@ import { DIRECCION_CORTA } from '../config';
       <h2>Disponibilidad permanente para su tranquilidad</h2>
       <p>
         En CECP entendemos que la salud no tiene horario. Por ello, ponemos a su disposición
-        atención médica los siete días de la semana mediante cita previa.
+        atención médica los siete días de la semana, con servicio a domicilio, emergencias 24/7 y
+        convenios de internación para una cobertura completa.
       </p>
     </div>
     <div class="hor-card reveal d2">
@@ -44,6 +45,33 @@ import { DIRECCION_CORTA } from '../config';
             ><span class="pto pto-azul"></span>Atención con cita previa · Lunes a Domingo</span
           >
           <span class="hora">24 horas / 7 días</span>
+        </div>
+        <div class="hor-row">
+          <span class="dia"><span class="pto"></span>Atención médica a domicilio</span>
+          <span class="hora">Con cita previa</span>
+        </div>
+        <div class="hor-row">
+          <span class="dia"><span class="pto pto-urgente"></span>Emergencias médicas</span>
+          <span class="hora">24/7</span>
+        </div>
+        <div class="hor-nota hor-convenio">
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#19B5A5"
+            stroke-width="2"
+            aria-hidden="true"
+            style="flex:none;margin-top:1px"
+          >
+            <path d="M3 21h18M5 21V7l7-4 7 4v14"></path>
+            <path d="M12 8v6M9 11h6"></path>
+          </svg>
+          <span>
+            <b>Convenios de internación</b> en las mejores clínicas y hospitales, para brindarle mayor
+            cobertura cuando su atención lo requiera.
+          </span>
         </div>
         <div class="hor-nota">
           <svg
@@ -143,6 +171,9 @@ import { DIRECCION_CORTA } from '../config';
   .hor-row .pto-azul {
     background: var(--color-azul);
   }
+  .hor-row .pto-urgente {
+    background: #e8843c;
+  }
   .hor-row .hora {
     font-weight: 500;
     font-size: 15px;
@@ -158,6 +189,9 @@ import { DIRECCION_CORTA } from '../config';
     display: flex;
     gap: 10px;
     align-items: flex-start;
+  }
+  .hor-convenio {
+    background: rgba(25, 181, 165, 0.1);
   }
   .hor-cta {
     text-align: center;
