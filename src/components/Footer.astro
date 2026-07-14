@@ -4,16 +4,13 @@ import {
   EMAIL,
   REDES,
 } from '../config';
+import { especialidades } from '../data/especialidades';
 
 const anio = new Date().getFullYear();
 
-const ESPECIALIDADES_LINKS = [
-  'Cardiología',
-  'Pediatría / Neonatología',
-  'Ginecología / Obstetricia',
-  'Odontología',
-  'Medicina General',
-];
+// Nombres tomados de la única fuente de verdad: agregar una especialidad
+// en src/data/especialidades.ts la lista aquí automáticamente.
+const ESPECIALIDADES_LINKS = especialidades.map((e) => e.nombre);
 ---
 
 <footer>
