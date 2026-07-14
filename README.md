@@ -50,13 +50,22 @@ vulnerabilidades: `npm audit` en local, actualizar los paquetes señalados,
 
 ## ⚠️ Pendientes
 
-1. **Google Search Console** — verificar la propiedad de `cecponline.com`,
-   enviar `https://cecponline.com/sitemap-index.xml` y vincular el sitio en el
-   perfil de Google Business del centro.
-2. **Google Analytics 4** — `GA_ID` en `src/config.ts` está vacío, por lo que no
-   se carga ningún script de Google. Poner el ID real cuando exista la
-   propiedad de GA4.
-3. **Textos legales (urgente: el sitio ya está en producción)** — `/privacidad`
+El orden y el detalle de estos pasos viven en `HANDOFF.md` (archivo local, no
+versionado). Resumen:
+
+1. **Cuenta Google oficial de la clínica** — dueña de Search Console, Analytics,
+   Ads y Business Profile. Debe crearse ANTES de verificar nada (la verificación
+   ata la propiedad a la cuenta que la inicia; no usar cuentas personales).
+2. **Search Console + Google Business Profile** — verificar `cecponline.com`
+   (DNS), enviar `https://cecponline.com/sitemap-index.xml`, dar de alta el
+   perfil de Google Business (máximo retorno local, gratis).
+3. **Consentimiento de cookies + privacidad** — banner con Consent Mode y
+   actualización de la política de privacidad. Requisito PREVIO a encender GA4
+   o Ads (hoy el sitio no pone ninguna cookie de rastreo).
+4. **Google Analytics 4** — poner el ID real en `GA_ID` (`src/config.ts`); el
+   hueco ya está cableado, incl. seguimiento de conversiones de WhatsApp.
+5. **Google Ads** — solo con plan/presupuesto definido y medición ya montada.
+6. **Textos legales (urgente: el sitio ya está en producción)** — `/privacidad`
    y `/terminos` son borradores que deben ser revisados por un profesional
    legal (datos de salud = datos sensibles bajo la LOPDP de Ecuador). Mientras
    tanto llevan `noindex` y quedan fuera del sitemap.

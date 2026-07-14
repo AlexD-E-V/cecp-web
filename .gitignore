@@ -10,3 +10,7 @@ CLAUDE.md
 CLAUDE.local.md
 .cursor/
 .aider*
+
+# Documentos de handoff: netamente locales, nunca se versionan
+HANDOFF.md
+HANDOFF*.md
