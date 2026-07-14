@@ -213,6 +213,37 @@ export const especialidades: Especialidad[] = [
       'Hola CECP, quiero información sobre programación neurolingüística (PNL) con el Lcdo. David Sánchez Tapia.',
   },
   {
+    id: 'digital',
+    nombre: 'Transformación Digital en Salud',
+    doctor: 'Lcdo. Alex D. Enriquez Vera',
+    credenciales:
+      'Licenciado en Sistemas y Tecnologías de la Información (UCSG, Ecuador) · Desarrollo de software · Administrador de la plataforma EAGLES VISION – Salud, Eficiencia e IA',
+    descripcion:
+      'Transformación digital de la atención médica: <b>historias clínicas electrónicas</b> gestionadas con rapidez, precisión y seguridad, apoyadas en inteligencia artificial para favorecer el diagnóstico precoz y mejorar la calidad de vida de los pacientes.',
+    foto: img('esp-digital'),
+    fotoAlt: 'Lcdo. Alex D. Enriquez Vera, responsable de transformación digital y de la plataforma EAGLES VISION en CECP',
+    badge: 'b-dig',
+    badgeSvg:
+      '<svg viewBox="0 0 24 24"><rect x="8.5" y="8.5" width="7" height="7" rx="1.5" fill="#fff"/><path d="M10.5 4v3M13.5 4v3M10.5 17v3M13.5 17v3M4 10.5h3M4 13.5h3M17 10.5h3M17 13.5h3" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/></svg>',
+    mensajeWhatsApp:
+      'Hola CECP, quiero información sobre transformación digital en salud y la plataforma EAGLES VISION con el Lcdo. Alex Enriquez.',
+    modal: {
+      icono: '🩺',
+      intro:
+        'Innovación y desarrollo tecnológico al servicio de la atención médica: gestión clínica digital, segura y eficiente, con inteligencia artificial de apoyo.',
+      procedimientos: [
+        { icono: '📋', nombre: 'Historias clínicas electrónicas' },
+        { icono: '🔒', nombre: 'Gestión segura de datos clínicos' },
+        { icono: '🤖', nombre: 'IA de apoyo al diagnóstico precoz' },
+        { icono: '🎯', nombre: 'Medicina de precisión' },
+        { icono: '📊', nombre: 'Asesoría en gestión administrativa' },
+        { icono: '🔗', nombre: 'Sistemas digitales multimodales' },
+        { icono: '⚙️', nombre: 'Transformación digital de procesos' },
+        { icono: '🦅', nombre: 'Plataforma EAGLES VISION' },
+      ],
+    },
+  },
+  {
     id: 'general',
     nombre: 'Medicina General e Integral',
     doctor: 'Equipo CECP',
