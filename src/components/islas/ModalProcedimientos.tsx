@@ -14,6 +14,7 @@ interface Props {
   procedimientos: { icono: string; nombre: string }[];
   equiposTitulo?: string;
   equipos?: EquipoFoto[];
+  cierre?: { titulo: string; texto: string };
   waHref: string;
 }
 
@@ -32,6 +33,7 @@ export default function ModalProcedimientos({
   procedimientos,
   equiposTitulo,
   equipos,
+  cierre,
   waHref,
 }: Props) {
   const ref = useRef<HTMLDialogElement>(null);
@@ -96,6 +98,12 @@ export default function ModalProcedimientos({
                 ))}
               </div>
             </>
+          )}
+          {cierre && (
+            <div className="pm-cierre">
+              <h4>{cierre.titulo}</h4>
+              <p>{cierre.texto}</p>
+            </div>
           )}
         </div>
         <div className="pm-foot">

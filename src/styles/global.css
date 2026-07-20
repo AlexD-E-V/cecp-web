@@ -476,6 +476,25 @@ dialog.pm::backdrop {
   color: var(--color-azul-oscuro);
   text-align: center;
 }
+.pm-cierre {
+  margin-top: 24px;
+  border-radius: 16px;
+  padding: 18px 20px;
+  background: linear-gradient(135deg, rgba(27, 111, 174, 0.08), rgba(25, 181, 165, 0.1));
+  border: 1px solid rgba(25, 181, 165, 0.28);
+}
+.pm-cierre h4 {
+  font-family: var(--font-ui);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-azul);
+  margin-bottom: 8px;
+}
+.pm-cierre p {
+  font-size: 13.5px;
+  color: var(--color-gris);
+  margin: 0;
+}
 .pm-foot {
   padding: 18px 28px 24px;
   border-top: 1px solid var(--color-gris-claro);

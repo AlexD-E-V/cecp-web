@@ -13,6 +13,7 @@ const espGinecologia = img('esp-ginecologia');
 const espOdontologia = img('esp-odontologia');
 const espMedicinaGeneral = img('esp-medicina-general');
 const espGenetica = img('esp-genetica');
+const espAutoinmunes = img('esp-autoinmunes');
 const equipoElectro = img('equipo-electrocardiografo');
 const equipoHolterArritmias = img('equipo-holter-arritmias');
 const equipoHolterPresion = img('equipo-holter-presion');
@@ -36,6 +37,8 @@ export interface ModalProcedimientos {
   procedimientos: Procedimiento[];
   equiposTitulo?: string;
   equipos?: EquipoMedico[];
+  /** Bloque destacado de cierre (p. ej. la visión y el compromiso del profesional) */
+  cierre?: { titulo: string; texto: string };
 }
 
 export interface Especialidad {
@@ -241,6 +244,11 @@ export const especialidades: Especialidad[] = [
         { icono: '⚙️', nombre: 'Transformación digital de procesos' },
         { icono: '🦅', nombre: 'Plataforma EAGLES VISION' },
       ],
+      cierre: {
+        titulo: 'Visión y compromiso',
+        texto:
+          'Visión: consolidar a CECP como un centro médico digital de referencia, donde la tecnología y la inteligencia artificial estén siempre al servicio del paciente. Compromiso: información clínica segura y confidencial, procesos ágiles y decisiones médicas mejor informadas, para que cada persona reciba una atención más precisa, humana y oportuna.',
+      },
     },
   },
   {
@@ -274,10 +282,14 @@ export const especialidades: Especialidad[] = [
     nombre: 'Enfermedades Autoinmunes',
     doctor: 'Equipo CECP',
     descripcion:
-      'Diagnóstico y acompañamiento en condiciones autoinmunes con enfoque multidisciplinario.',
+      'Diagnóstico y acompañamiento en condiciones autoinmunes con enfoque multidisciplinario, incluyendo <b>diagnóstico y tratamientos con cardioinmunoterapias</b>.',
+    foto: espAutoinmunes,
+    fotoAlt:
+      'Ilustración de un corazón humano junto a una cadena de ADN y un anticuerpo: diagnóstico de enfermedades autoinmunes y cardioinmunoterapias en CECP Guayaquil',
     badge: 'b-aut',
     badgeSvg:
       '<svg viewBox="0 0 24 24"><path d="M12 3l7 2.6v5c0 4.6-2.8 7.6-7 9.4-4.2-1.8-7-4.8-7-9.4v-5Z" fill="none" stroke="#fff" stroke-width="2.1" stroke-linejoin="round"/><path d="M9 11.5l2 2 4-4.2" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
-    mensajeWhatsApp: 'Hola CECP, quiero información sobre enfermedades autoinmunes.',
+    mensajeWhatsApp:
+      'Hola CECP, quiero información sobre enfermedades autoinmunes y cardioinmunoterapias.',
   },
 ];

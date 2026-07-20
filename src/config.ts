@@ -41,3 +41,14 @@ export function waLink(mensaje: string): string {
 }
 
 export const MSG_CITA = 'Hola CECP, quiero agendar una cita médica.';
+
+/** Membresía Familiar CECP — el precio y el descuento se usan en la sección y en el JSON-LD. */
+export const MEMBRESIA = {
+  nombre: 'Membresía Familiar CECP',
+  /** Valor mensual en USD */
+  precio: 50,
+  /** Descuento máximo (%) en las especialidades */
+  descuento: 40,
+  mensajeWhatsApp:
+    'Hola CECP, quiero información sobre la Membresía Familiar de $50 mensuales.',
+};

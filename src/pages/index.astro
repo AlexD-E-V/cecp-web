@@ -5,6 +5,7 @@ import Hero from '../components/Hero.astro';
 import Confianza from '../components/Confianza.astro';
 import Cardiogenetica from '../components/Cardiogenetica.astro';
 import Especialidades from '../components/Especialidades.astro';
+import Membresia from '../components/Membresia.astro';
 import Horario from '../components/Horario.astro';
 import Testimonios from '../components/Testimonios.astro';
 import Contacto from '../components/Contacto.astro';
@@ -15,6 +16,7 @@ import {
   DIRECCION,
   EMAIL,
   MAPS_SHARE,
+  MEMBRESIA,
   NOMBRE_LEGAL,
   REDES,
   TELEFONO,
@@ -23,7 +25,7 @@ import {
 const TITLE =
   'CECP - Centro de Especialidades Médicas en Guayaquil | Cardiología, Pediatría, Odontología';
 const DESCRIPTION =
-  'CECP: atención médica especializada para toda la familia en Guayaquil. Cardiología, pediatría, neonatología, ginecología, odontología y más. Equipos de primera generación. Agenda por WhatsApp en segundos.';
+  'CECP: atención médica especializada para toda la familia en Guayaquil. Cardiología, pediatría, neonatología, ginecología, odontología y más. Equipos de primera generación y Membresía Familiar desde $50 al mes. Agenda por WhatsApp en segundos.';
 
 const siteUrl = Astro.site!.toString();
 
@@ -73,6 +75,21 @@ const schemaClinica = {
     { '@type': 'MedicalProcedure', name: 'Ecocardiograma' },
   ],
   medicalSpecialty: ['Cardiovascular', 'Pediatric', 'Gynecologic', 'Dentistry', 'Genetics'],
+  makesOffer: {
+    '@type': 'Offer',
+    name: MEMBRESIA.nombre,
+    description: `Membresía familiar mensual de CECP: consultas con especialistas, procedimientos cardiovasculares, exámenes de laboratorio y estudios de imagen, con hasta ${MEMBRESIA.descuento}% de descuento en las especialidades para toda la familia.`,
+    priceCurrency: 'USD',
+    priceSpecification: {
+      '@type': 'UnitPriceSpecification',
+      price: MEMBRESIA.precio,
+      priceCurrency: 'USD',
+      referenceQuantity: { '@type': 'QuantitativeValue', value: 1, unitCode: 'MON' },
+    },
+    category: 'Membresía familiar',
+    availability: 'https://schema.org/InStock',
+    url: `${siteUrl}#membresia`,
+  },
   sameAs: [REDES.tiktok, REDES.facebook, REDES.instagram],
   email: EMAIL,
 };
@@ -104,6 +121,7 @@ const schemaMedicos = {
   <Confianza />
   <Cardiogenetica />
   <Especialidades />
+  <Membresia />
   <Horario />
   <Testimonios />
   <Contacto />
