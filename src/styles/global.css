@@ -532,6 +532,14 @@ dialog.pm::backdrop {
   cursor: grab;
   opacity: 0;
   transition: opacity 1.2s ease;
+  /* El globo solo gira en horizontal: cedemos el gesto vertical al scroll de la
+     página y nos quedamos con el horizontal. Sin esto, en móvil el navegador
+     interpreta el arrastre como scroll, dispara `pointercancel` y deja de enviar
+     eventos: el globo se frena de golpe (la "resistencia" que se sentía). */
+  touch-action: pan-y;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
 }
 .globo-pin {
   position: absolute;

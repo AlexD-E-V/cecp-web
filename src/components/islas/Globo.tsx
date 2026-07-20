@@ -28,6 +28,7 @@ export default function Globo({ fallbackSrc, fallbackAlt, lat, lon }: Props) {
 
     let globo: { destroy: () => void } | null = null;
     let ro: ResizeObserver | null = null;
+    let quitarListeners: (() => void) | null = null;
 
     const iniciar = (): boolean => {
       const size = wrap.offsetWidth;
@@ -38,6 +39,8 @@ export default function Globo({ fallbackSrc, fallbackAlt, lat, lon }: Props) {
       let rot = basePhi;
       let arrastre = 0;
       let arrastrando: number | null = null;
+      /** Inercia al soltar, en radianes por frame */
+      let velocidad = 0;
       try {
         globo = createGlobe(canvas, {
           devicePixelRatio: 2,
@@ -54,7 +57,16 @@ export default function Globo({ fallbackSrc, fallbackAlt, lat, lon }: Props) {
           glowColor: [0.78, 0.9, 0.97],
           markers: [{ location: [lat, lon], size: 0.1 }],
           onRender: (state) => {
-            if (arrastrando === null) rot += 0.0065;
+            if (arrastrando === null) {
+              if (velocidad !== 0) {
+                // Al soltar, el globo sigue girando y frena poco a poco
+                arrastre += velocidad;
+                velocidad *= 0.94;
+                if (Math.abs(velocidad) < 0.0004) velocidad = 0;
+              } else {
+                rot += 0.0065;
+              }
+            }
             state.phi = rot + arrastre;
             state.width = size * 2;
             state.height = size * 2;
@@ -67,29 +79,70 @@ export default function Globo({ fallbackSrc, fallbackAlt, lat, lon }: Props) {
       canvas.style.opacity = '1';
       setListo(true);
 
+      // Radianes que gira el globo al arrastrar el dedo/ratón de lado a lado.
+      // Relativo al tamaño del canvas: así el gesto recorre lo mismo en el móvil
+      // que en escritorio (antes era un divisor fijo y en pantallas pequeñas el
+      // mismo gesto giraba bastante menos).
+      const SENSIBILIDAD = 3.4;
       let inicioX = 0;
       let arrastreInicial = 0;
-      canvas.addEventListener('pointerdown', (e) => {
+      let ultimoX = 0;
+      let ultimoT = 0;
+
+      const alPresionar = (e: PointerEvent) => {
         arrastrando = e.pointerId;
-        inicioX = e.clientX;
+        inicioX = ultimoX = e.clientX;
+        ultimoT = e.timeStamp;
         arrastreInicial = arrastre;
+        velocidad = 0;
+        // Captura del puntero: el canvas sigue recibiendo los eventos aunque el
+        // dedo se salga de él, sin necesidad de escuchar en `window`.
+        try {
+          canvas.setPointerCapture(e.pointerId);
+        } catch {
+          /* el puntero ya no está activo: se sigue sin captura */
+        }
         canvas.style.cursor = 'grabbing';
-      });
-      window.addEventListener(
-        'pointermove',
-        (e) => {
-          if (arrastrando !== null) arrastre = arrastreInicial + (e.clientX - inicioX) / 140;
-        },
-        { passive: true }
-      );
-      window.addEventListener(
-        'pointerup',
-        () => {
-          arrastrando = null;
-          canvas.style.cursor = 'grab';
-        },
-        { passive: true }
-      );
+      };
+
+      const alMover = (e: PointerEvent) => {
+        if (e.pointerId !== arrastrando) return;
+        arrastre = arrastreInicial + ((e.clientX - inicioX) / size) * SENSIBILIDAD;
+        const dt = e.timeStamp - ultimoT;
+        if (dt > 0) {
+          // px/ms → radianes por frame (~16.7 ms), para la inercia al soltar
+          velocidad = ((e.clientX - ultimoX) / size) * SENSIBILIDAD * (16.7 / dt);
+          ultimoX = e.clientX;
+          ultimoT = e.timeStamp;
+        }
+      };
+
+      const alSoltar = (e: PointerEvent) => {
+        if (e.pointerId !== arrastrando) return;
+        // Si el dedo se quedó quieto antes de levantarse, no hay impulso
+        if (e.timeStamp - ultimoT > 100) velocidad = 0;
+        arrastrando = null;
+        canvas.style.cursor = 'grab';
+        if (canvas.hasPointerCapture(e.pointerId)) canvas.releasePointerCapture(e.pointerId);
+      };
+
+      // `pointercancel`: el navegador se quedó con el gesto (p. ej. scroll
+      // vertical). Se suelta sin inercia para no dar un tirón.
+      const alCancelar = (e: PointerEvent) => {
+        velocidad = 0;
+        alSoltar(e);
+      };
+
+      canvas.addEventListener('pointerdown', alPresionar);
+      canvas.addEventListener('pointermove', alMover, { passive: true });
+      canvas.addEventListener('pointerup', alSoltar, { passive: true });
+      canvas.addEventListener('pointercancel', alCancelar, { passive: true });
+      quitarListeners = () => {
+        canvas.removeEventListener('pointerdown', alPresionar);
+        canvas.removeEventListener('pointermove', alMover);
+        canvas.removeEventListener('pointerup', alSoltar);
+        canvas.removeEventListener('pointercancel', alCancelar);
+      };
       return true;
     };
 
@@ -110,6 +163,7 @@ export default function Globo({ fallbackSrc, fallbackAlt, lat, lon }: Props) {
     return () => {
       clearTimeout(timeout);
       ro?.disconnect();
+      quitarListeners?.();
       globo?.destroy();
     };
   }, [lat, lon]);
