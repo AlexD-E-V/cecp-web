@@ -2,6 +2,7 @@
 import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import AvisoCookies from '../components/AvisoCookies.astro';
 import { GA_ID, MSG_CITA, waLink, NOMBRE } from '../config';
 
 interface Props {
@@ -72,7 +73,29 @@ const ogImage = new URL('/og-cecp.jpg', Astro.site);
           >
             window.dataLayer = window.dataLayer || [];
             function gtag() { dataLayer.push(arguments); }
+            // Astro envuelve este script (define:vars) en una función, así que
+            // exponemos gtag en window para que el banner de cookies y el rastreo
+            // de leads del <body> puedan usarlo.
+            window.gtag = gtag;
             gtag('js', new Date());
+
+            // Consent Mode v2: por defecto TODO denegado hasta que el usuario
+            // acepte en el aviso de cookies. La clínica no usa publicidad, así
+            // que ad_* se queda denegado siempre.
+            gtag('consent', 'default', {
+              ad_storage: 'denied',
+              ad_user_data: 'denied',
+              ad_personalization: 'denied',
+              analytics_storage: 'denied',
+            });
+
+            // Si el visitante ya aceptó en una visita anterior, concedemos analítica.
+            try {
+              if (localStorage.getItem('cecp-consent') === 'accepted') {
+                gtag('consent', 'update', { analytics_storage: 'granted' });
+              }
+            } catch (e) {}
+
             gtag('config', GA_ID);
           </script>
         </>
@@ -98,6 +121,8 @@ const ogImage = new URL('/og-cecp.jpg', Astro.site);
         /></svg
       >
     </a>
+
+    {GA_ID && <AvisoCookies />}
 
     <script>
       // Reveal al hacer scroll (respeta prefers-reduced-motion vía CSS)

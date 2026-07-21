@@ -8,8 +8,8 @@
 // (canonical hacia un dominio muerto = hallazgo C4 de la auditoría).
 export const SITE_URL = 'https://cecponline.com';
 
-// PLACEHOLDER: ID de Google Analytics 4 (formato G-XXXXXXXXXX). Vacío = no se carga GA.
-export const GA_ID = '';
+// ID de medición de Google Analytics 4. Vacío = no se carga GA.
+export const GA_ID = 'G-H84YLZ124S';
 
 export const NOMBRE = 'CECP · Centro de Especialidades';
 export const NOMBRE_LEGAL = 'CECP - Centro de Especialidades';

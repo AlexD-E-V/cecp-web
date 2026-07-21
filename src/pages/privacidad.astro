@@ -4,10 +4,9 @@ import { EMAIL, NOMBRE_LEGAL, TELEFONO_DISPLAY } from '../config';
 ---
 
 <!--
-  PLACEHOLDER LEGAL: este texto es una estructura de partida y NO fue redactado
-  por un abogado. Al tratarse de un centro médico (datos de salud = datos sensibles
-  bajo la LOPDP de Ecuador), este contenido debe ser revisado y completado por un
-  profesional legal antes del lanzamiento con dominio propio.
+  Textos legales del sitio (versión publicable). Cubren el uso informativo de la web
+  y sus canales de contacto conforme a la LOPDP de Ecuador. Pendiente: validación
+  final por un profesional legal (no bloquea la publicación).
 -->
 <Base
   title="Política de privacidad | CECP Centro de Especialidades"
@@ -16,10 +15,6 @@ import { EMAIL, NOMBRE_LEGAL, TELEFONO_DISPLAY } from '../config';
 >
   <main class="legal container-cecp">
     <h1>Política de privacidad</h1>
-    <p class="pendiente">
-      ⚠️ Documento en preparación: esta política será revisada por un profesional legal antes de su
-      publicación definitiva.
-    </p>
 
     <h2>1. Responsable del tratamiento</h2>
     <p>
@@ -36,7 +31,15 @@ import { EMAIL, NOMBRE_LEGAL, TELEFONO_DISPLAY } from '../config';
       médica.
     </p>
 
-    <h2 id="datos-pacientes">3. Protección de datos de pacientes</h2>
+    <h2>3. Cookies y analítica web</h2>
+    <p>
+      Este sitio utiliza Google Analytics para conocer, de forma estadística y agregada, cómo se
+      usa la página (por ejemplo, cuántas personas la visitan y qué secciones consultan). Estas
+      cookies solo se activan si usted las acepta en el aviso de cookies y puede rechazarlas sin que
+      ello afecte al funcionamiento del sitio. No se utilizan cookies con fines publicitarios.
+    </p>
+
+    <h2 id="datos-pacientes">4. Protección de datos de pacientes</h2>
     <p>
       Los datos de salud son datos sensibles conforme a la Ley Orgánica de Protección de Datos
       Personales (LOPDP) del Ecuador. La información clínica de los pacientes se gestiona
@@ -44,7 +47,7 @@ import { EMAIL, NOMBRE_LEGAL, TELEFONO_DISPLAY } from '../config';
       consentimiento expreso, salvo obligación legal.
     </p>
 
-    <h2>4. Sus derechos</h2>
+    <h2>5. Sus derechos</h2>
     <p>
       Usted puede ejercer sus derechos de acceso, rectificación, eliminación y oposición
       escribiendo a {EMAIL} o llamando al {TELEFONO_DISPLAY}.
@@ -70,12 +73,5 @@ import { EMAIL, NOMBRE_LEGAL, TELEFONO_DISPLAY } from '../config';
   .legal p {
     color: var(--color-gris);
     font-size: 15px;
-  }
-  .pendiente {
-    background: var(--color-celeste-suave);
-    border-radius: 14px;
-    padding: 14px 18px;
-    color: var(--color-azul-oscuro) !important;
-    font-size: 13.5px !important;
   }
 </style>

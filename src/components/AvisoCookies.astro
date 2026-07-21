@@ -1,0 +1,137 @@
+---
+/**
+ * Aviso de cookies + Google Consent Mode v2.
+ *
+ * La analítica (Google Analytics) arranca DENEGADA por defecto (ver Base.astro).
+ * Este banner solo aparece si el visitante aún no ha decidido, y al pulsar:
+ *   - "Aceptar"  → concede analytics_storage (GA empieza a medir).
+ *   - "Rechazar" → mantiene todo denegado (GA queda en modo sin cookies).
+ * La decisión se guarda en localStorage para no volver a preguntar.
+ *
+ * No usa publicidad: ad_storage se mantiene siempre denegado.
+ */
+---
+
+<div id="cecp-cookies" class="cookies" hidden>
+  <p class="cookies__txt">
+    Usamos cookies de analítica para entender cómo se usa el sitio y mejorarlo. No usamos cookies
+    publicitarias. Puedes aceptarlas o rechazarlas; el sitio funciona igual.
+    <a href="/privacidad">Más información</a>.
+  </p>
+  <div class="cookies__acc">
+    <button type="button" id="cecp-cookies-reject" class="btn btn--ghost">Rechazar</button>
+    <button type="button" id="cecp-cookies-accept" class="btn btn--solid">Aceptar</button>
+  </div>
+</div>
+
+<script is:inline>
+  (function () {
+    var KEY = 'cecp-consent';
+    var banner = document.getElementById('cecp-cookies');
+    if (!banner) return;
+
+    // Si ya decidió antes, no mostramos nada (el consentimiento ya se aplicó en el <head>).
+    var previo = null;
+    try {
+      previo = localStorage.getItem(KEY);
+    } catch (e) {}
+    if (previo === 'accepted' || previo === 'rejected') return;
+
+    banner.hidden = false;
+
+    function decidir(valor) {
+      try {
+        localStorage.setItem(KEY, valor);
+      } catch (e) {}
+      if (valor === 'accepted' && typeof window.gtag === 'function') {
+        window.gtag('consent', 'update', { analytics_storage: 'granted' });
+      }
+      banner.hidden = true;
+    }
+
+    document
+      .getElementById('cecp-cookies-accept')
+      .addEventListener('click', function () {
+        decidir('accepted');
+      });
+    document
+      .getElementById('cecp-cookies-reject')
+      .addEventListener('click', function () {
+        decidir('rejected');
+      });
+  })();
+</script>
+
+<style>
+  .cookies {
+    position: fixed;
+    left: 16px;
+    right: 16px;
+    bottom: 16px;
+    z-index: 60;
+    max-width: 560px;
+    margin-inline: auto;
+    background: #fff;
+    border: 1px solid var(--color-celeste-suave);
+    border-radius: 16px;
+    box-shadow: 0 12px 40px rgba(14, 58, 93, 0.18);
+    padding: 18px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .cookies__txt {
+    margin: 0;
+    font-size: 13.5px;
+    line-height: 1.5;
+    color: var(--color-gris);
+  }
+  .cookies__txt a {
+    color: var(--color-azul);
+    text-decoration: underline;
+  }
+  .cookies__acc {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+  }
+  .btn {
+    font-family: var(--font-ui, inherit);
+    font-size: 13.5px;
+    font-weight: 600;
+    padding: 9px 18px;
+    border-radius: 10px;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition:
+      background 0.2s,
+      border-color 0.2s,
+      transform 0.15s;
+  }
+  .btn:hover {
+    transform: translateY(-1px);
+  }
+  .btn--solid {
+    background: var(--color-azul);
+    color: #fff;
+  }
+  .btn--solid:hover {
+    background: var(--color-azul-oscuro);
+  }
+  .btn--ghost {
+    background: transparent;
+    color: var(--color-gris);
+    border-color: var(--color-celeste-suave);
+  }
+  .btn--ghost:hover {
+    border-color: var(--color-celeste);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .btn {
+      transition: none;
+    }
+    .btn:hover {
+      transform: none;
+    }
+  }
+</style>

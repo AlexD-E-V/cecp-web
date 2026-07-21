@@ -4,8 +4,8 @@ import { EMAIL, NOMBRE_LEGAL } from '../config';
 ---
 
 <!--
-  PLACEHOLDER LEGAL: estructura de partida, pendiente de revisión por un
-  profesional legal antes del lanzamiento con dominio propio.
+  Textos legales del sitio (versión publicable). Pendiente: validación final por un
+  profesional legal (no bloquea la publicación).
 -->
 <Base
   title="Términos y condiciones | CECP Centro de Especialidades"
@@ -14,10 +14,6 @@ import { EMAIL, NOMBRE_LEGAL } from '../config';
 >
   <main class="legal container-cecp">
     <h1>Términos y condiciones</h1>
-    <p class="pendiente">
-      ⚠️ Documento en preparación: estos términos serán revisados por un profesional legal antes de
-      su publicación definitiva.
-    </p>
 
     <h2>1. Objeto del sitio</h2>
     <p>
@@ -27,8 +23,9 @@ import { EMAIL, NOMBRE_LEGAL } from '../config';
 
     <h2>2. La información no reemplaza una consulta médica</h2>
     <p>
-      La información publicada en este sitio tiene fines educativos y no constituye diagnóstico,
-      tratamiento ni recomendación médica. Ante cualquier síntoma, acuda a un especialista.
+      La información publicada en este sitio tiene fines informativos sobre los servicios del
+      centro y no constituye diagnóstico, tratamiento ni recomendación médica. Ante cualquier
+      síntoma, acuda a un especialista.
     </p>
 
     <h2>3. Agendamiento de citas</h2>
@@ -60,12 +57,5 @@ import { EMAIL, NOMBRE_LEGAL } from '../config';
   .legal p {
     color: var(--color-gris);
     font-size: 15px;
-  }
-  .pendiente {
-    background: var(--color-celeste-suave);
-    border-radius: 14px;
-    padding: 14px 18px;
-    color: var(--color-azul-oscuro) !important;
-    font-size: 13.5px !important;
   }
 </style>
