@@ -8,11 +8,17 @@ no perderlos de vista.
 
 - La clínica **ya tiene** ficha en Google Maps (hay enlace de reseñas `g.page/r/...`
   en `src/config.ts`). **No crear una nueva** (Google penaliza duplicados).
-- **Acción:** hablar con el doctor para averiguar **quién es el dueño actual** de esa
-  ficha (¿él?, ¿el desarrollador original?, ¿nadie la reclamó?).
-- Según la respuesta: reclamarla o pedir acceso desde `business.google.com` con la
-  cuenta técnica `cecptech@gmail.com`, y **agregar al doctor como propietario** para
-  que la clínica nunca quede bloqueada de su propia ficha.
+- **HALLAZGO (jul 2026):** la ficha **ya está reclamada, verificada y gestionada
+  activamente por alguien**. Señales: hay **"Respuesta del propietario"** en reseñas
+  recientes (solo posible con un perfil de Google Business verificado) y el sitio web
+  `cecponline.com` ya está puesto en el negocio. O sea, NO está libre para reclamar.
+- **Acción:** preguntar al doctor **quién gestiona la ficha** (¿él?, ¿alguien de su
+  equipo?, ¿una agencia/persona de marketing?). Para obtener acceso, ese gestor debe
+  **agregar a `cecptech@gmail.com` como administrador/propietario** (o aprobar una
+  solicitud de acceso, que le llega como notificación).
+- **Decisión de negocio:** si ya hay alguien encargándose de la ficha y las reseñas,
+  el servicio "Apoyo con ficha de Google Business y reseñas" del plan de mantenimiento
+  **ya lo hace otro** → no cobrarlo ni duplicarlo; coordinar o sacarlo del plan.
 
 ## 2. Email profesional del dominio (Hostinger)
 
