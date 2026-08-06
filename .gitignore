@@ -14,3 +14,6 @@ CLAUDE.local.md
 # Documentos de handoff: netamente locales, nunca se versionan
 HANDOFF.md
 HANDOFF*.md
+
+# Documentación comercial (plan de mantenimiento, tarifas): interna, no del proyecto
+MANTENIMIENTO.md
