@@ -60,3 +60,20 @@ no perderlos de vista.
 - **Acción:** pegar el **ID de medición** (`G-XXXXXXXXXX`) en `GA_ID` dentro de
   `src/config.ts`. Con eso se activan la analítica (solo si el visitante acepta) y el
   aviso de cookies.
+
+## 5. Redacción de "Emergencias médicas · 24/7"
+
+- **Entendido hoy:** las emergencias se **coordinan por WhatsApp**; el equipo no
+  permanece en el consultorio las 24 horas. Con ese criterio se configuraron la web y sus
+  datos estructurados (solo el horario de consultorio se declara como apertura al
+  público).
+- **Acción 1 — confirmar con el médico** que ese entendido es correcto. Si resultara que
+  sí hay guardia presencial en algún tramo, hay que declararlo como horario de apertura
+  en `HORARIO.consultorio` (`src/config.ts`) y en la ficha de Google.
+- **Acción 2 — preguntar si quieren explicitarlo en la página.** Hoy la fila "Emergencias
+  médicas · 24/7" es la única de las cuatro que no dice "con cita previa", y un paciente
+  podría leerla como que puede presentarse en el consultorio a las 3 a.m. Bastaría con
+  añadir "· Coordinadas por WhatsApp" a esa fila. **Es decisión de ellos**, no se toca sin
+  su visto bueno.
+- Riesgo si no se aclara: alguien con una urgencia real llega a una puerta cerrada de
+  madrugada. Es un problema de expectativas, no de código.

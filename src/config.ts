@@ -22,7 +22,17 @@ export const EMAIL = 'cecpespecialidades@hotmail.com';
 export const DIRECCION = 'Cdla. Atarazana Mz 02 Villa 45, Av. Pedro José Menéndez Gilbert';
 export const DIRECCION_CORTA = 'Atarazana, Av. Pedro Menéndez Gilbert, Guayaquil, Ecuador';
 export const REFERENCIA = 'Pasando la estación de la Metrovía, cerca de SOLCA · Parqueo disponible';
-export const COORDENADAS = { lat: -2.19, lon: -79.88 };
+/**
+ * Ubicación exacta del local, tomada de la ficha de Google Maps (mismo CID que
+ * REVIEW_URL: 0x5771bcfa1d5c2389). Alimenta el `geo` del JSON-LD y el marcador
+ * del globo 3D.
+ *
+ * Necesita 5+ decimales: dos decimales equivalen a ~1,1 km de imprecisión (los
+ * valores redondeados anteriores caían a ~1,97 km del consultorio). Al copiarlas
+ * de una URL de Maps hay que usar el par `!3d!4d` —la ubicación del negocio—,
+ * no el `@lat,lon` inicial, que es solo el centro de la cámara.
+ */
+export const COORDENADAS = { lat: -2.1722918, lon: -79.8798405 };
 
 /**
  * Horario de atención — ÚNICA fuente de verdad.
@@ -57,6 +67,10 @@ export const HORARIO = {
       punto: 'pto-azul',
     },
     { etiqueta: 'Atención médica a domicilio', valor: 'Con cita previa', punto: '' },
+    // Las emergencias se COORDINAN por WhatsApp: el equipo no permanece en el
+    // consultorio 24/7. Por eso no entran en `consultorio` (horas de puerta
+    // abierta). Pendiente de confirmar con el médico si se explicita en la web
+    // para que nadie se presente de madrugada — ver PENDIENTES.md §5.
     { etiqueta: 'Emergencias médicas', valor: '24/7', punto: 'pto-urgente' },
   ],
 
