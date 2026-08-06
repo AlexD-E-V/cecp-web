@@ -60,8 +60,12 @@ const ESPECIALIDADES_LINKS = especialidades.map((e) => e.nombre);
       </div>
       <div>
         <h4>Legal</h4>
-        <a href="/privacidad">Política de privacidad</a>
-        <a href="/terminos">Términos y condiciones</a>
+        {/* Con barra final: es la URL real que sirve Astro (privacidad/index.html)
+            y la que declaran el canonical y el sitemap. Sin ella el servidor
+            responde una redirección 301 en cada visita, y Search Console la
+            reporta como "Página con redirección". */}
+        <a href="/privacidad/">Política de privacidad</a>
+        <a href="/terminos/">Términos y condiciones</a>
         {/* Retirar el consentimiento debe ser tan fácil como darlo (LOPDP):
             AvisoCookies.astro escucha el atributo data-cecp-cookies y reabre
             el aviso. Solo tiene sentido si la analítica está activa. */}
