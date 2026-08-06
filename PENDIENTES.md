@@ -20,6 +20,21 @@ no perderlos de vista.
   el servicio "Apoyo con ficha de Google Business y reseñas" del plan de mantenimiento
   **ya lo hace otro** → no cobrarlo ni duplicarlo; coordinar o sacarlo del plan.
 
+## 1.b. Horario de la ficha de Google Maps
+
+- **El horario válido es el de la web** (`HORARIO` en `src/config.ts`), aprobado por el
+  titular del centro: consultorio de lunes a viernes 7:00–16:00, más atención con cita
+  previa 24/7, domicilio, emergencias 24/7 y convenios de internación.
+- La web y sus datos estructurados ya dicen exactamente eso. **Falta comprobar qué horario
+  muestra la ficha de Google Maps**, porque es la ficha —no la web— la que decide el
+  "Abierto / Cerrado" que ve la gente al buscar. Si no coinciden, gana la ficha.
+- **Acción:** revisar el horario publicado en la ficha y, si difiere, corregirlo. Requiere
+  acceso de administrador, que hoy no se tiene (ver punto 1). Va junto con esa gestión.
+- Nota: en la ficha conviene declarar como horario de apertura **solo el de consultorio**
+  (L–V 7:00–16:00) y usar los campos de descripción/servicios para la atención con cita
+  previa y las emergencias. Declararla "Abierta 24 horas" haría que alguien se presente en
+  la puerta de madrugada esperando encontrar personal.
+
 ## 2. Email profesional del dominio (Hostinger)
 
 - El correo del dominio es **gratis solo el primer año**; a partir del segundo año se

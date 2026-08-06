@@ -1,6 +1,8 @@
 ---
 import BotonWhatsApp from './BotonWhatsApp.astro';
-import { DIRECCION_CORTA } from '../config';
+// Las filas salen de config.ts: el mismo horario alimenta esta tarjeta y el
+// JSON-LD de la portada, para que no puedan contradecirse.
+import { DIRECCION_CORTA, HORARIO } from '../config';
 ---
 
 <section class="horario seccion" id="horario">
@@ -36,24 +38,17 @@ import { DIRECCION_CORTA } from '../config';
         </div>
       </div>
       <div class="hor-body">
-        <div class="hor-row">
-          <span class="dia"><span class="pto"></span>Atención en consultorio · Lunes a Viernes</span>
-          <span class="hora">7:00 AM — 4:00 PM</span>
-        </div>
-        <div class="hor-row">
-          <span class="dia"
-            ><span class="pto pto-azul"></span>Atención con cita previa · Lunes a Domingo</span
-          >
-          <span class="hora">24 horas / 7 días</span>
-        </div>
-        <div class="hor-row">
-          <span class="dia"><span class="pto"></span>Atención médica a domicilio</span>
-          <span class="hora">Con cita previa</span>
-        </div>
-        <div class="hor-row">
-          <span class="dia"><span class="pto pto-urgente"></span>Emergencias médicas</span>
-          <span class="hora">24/7</span>
-        </div>
+        {
+          HORARIO.filas.map((fila) => (
+            <div class="hor-row">
+              <span class="dia">
+                <span class:list={['pto', fila.punto]} />
+                {fila.etiqueta}
+              </span>
+              <span class="hora">{fila.valor}</span>
+            </div>
+          ))
+        }
         <div class="hor-nota hor-convenio">
           <svg
             width="20"

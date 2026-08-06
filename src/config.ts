@@ -24,6 +24,59 @@ export const DIRECCION_CORTA = 'Atarazana, Av. Pedro Menéndez Gilbert, Guayaqui
 export const REFERENCIA = 'Pasando la estación de la Metrovía, cerca de SOLCA · Parqueo disponible';
 export const COORDENADAS = { lat: -2.19, lon: -79.88 };
 
+/**
+ * Horario de atención — ÚNICA fuente de verdad.
+ * Lo consumen la sección visible (Horario.astro), el resumen de Contacto y el
+ * JSON-LD de la portada. Cambiar el horario = editar solo este bloque.
+ *
+ * El horario válido es el APROBADO POR EL TITULAR y publicado en esta web. Si la
+ * ficha de Google Maps muestra otro, se corrige la ficha (ver PENDIENTES.md).
+ */
+export const HORARIO = {
+  /**
+   * Único tramo de PUERTA ABIERTA sin cita previa. Es lo que se declara a Google
+   * como `openingHoursSpecification`, porque en schema.org ese campo significa
+   * "el local está abierto al público", no "hay disponibilidad coordinada".
+   */
+  consultorio: {
+    diasSchema: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+    abre: '07:00',
+    cierra: '16:00',
+  },
+
+  /** Filas de la tarjeta visible, en orden. `punto` = color del indicador. */
+  filas: [
+    {
+      etiqueta: 'Atención en consultorio · Lunes a Viernes',
+      valor: '7:00 AM — 4:00 PM',
+      punto: '',
+    },
+    {
+      etiqueta: 'Atención con cita previa · Lunes a Domingo',
+      valor: '24 horas / 7 días',
+      punto: 'pto-azul',
+    },
+    { etiqueta: 'Atención médica a domicilio', valor: 'Con cita previa', punto: '' },
+    { etiqueta: 'Emergencias médicas', valor: '24/7', punto: 'pto-urgente' },
+  ],
+
+  /** Resumen de una línea para la sección de Contacto. */
+  resumen: 'Consultorio: Lunes a Viernes, 7:00 AM – 4:00 PM · Atención 24/7 con cita previa',
+
+  /**
+   * Disponibilidad que la web anuncia FUERA del horario de consultorio. Va al
+   * JSON-LD como `availableService`, no como horas de apertura: así Google
+   * conoce estos servicios sin que la ficha declare el local abierto 24/7 (lo
+   * que llevaría a un paciente a presentarse en la puerta de madrugada).
+   */
+  serviciosExtendidos: [
+    'Consulta médica con cita previa los 7 días de la semana, 24 horas',
+    'Atención médica a domicilio con cita previa',
+    'Atención de emergencias médicas 24/7',
+    'Convenios de internación en clínicas y hospitales',
+  ],
+};
+
 export const REDES = {
   facebook: 'https://www.facebook.com/especialidadescecp/',
   instagram: 'https://www.instagram.com/cecp_especialidades/',

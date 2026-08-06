@@ -5,19 +5,27 @@
  * La analítica (Google Analytics) arranca DENEGADA por defecto (ver Base.astro).
  * Este banner solo aparece si el visitante aún no ha decidido, y al pulsar:
  *   - "Aceptar"  → concede analytics_storage (GA empieza a medir).
- *   - "Rechazar" → mantiene todo denegado (GA queda en modo sin cookies).
+ *   - "Rechazar" → deniega analytics_storage (GA queda en modo sin cookies).
  * La decisión se guarda en localStorage para no volver a preguntar.
+ *
+ * REVOCACIÓN: la LOPDP exige que retirar el consentimiento sea tan fácil como
+ * darlo. Cualquier elemento con el atributo `data-cecp-cookies` (hoy: el enlace
+ * del pie de página y el de la política de privacidad) vuelve a abrir este
+ * aviso para cambiar la decisión. Al rechazar tras haber aceptado no basta con
+ * denegar el consentimiento: también se borran las cookies `_ga*` que Google ya
+ * hubiera escrito, para que la retirada sea efectiva y no solo declarativa.
  *
  * No usa publicidad: ad_storage se mantiene siempre denegado.
  */
 ---
 
-<div id="cecp-cookies" class="cookies" hidden>
+<div id="cecp-cookies" class="cookies" role="region" aria-label="Preferencias de cookies" hidden>
   <p class="cookies__txt">
     Usamos cookies de analítica para entender cómo se usa el sitio y mejorarlo. No usamos cookies
     publicitarias. Puedes aceptarlas o rechazarlas; el sitio funciona igual.
     <a href="/privacidad">Más información</a>.
   </p>
+  <p class="cookies__estado" id="cecp-cookies-estado" hidden></p>
   <div class="cookies__acc">
     <button type="button" id="cecp-cookies-reject" class="btn btn--ghost">Rechazar</button>
     <button type="button" id="cecp-cookies-accept" class="btn btn--solid">Aceptar</button>
@@ -30,35 +38,103 @@
     var banner = document.getElementById('cecp-cookies');
     if (!banner) return;
 
-    // Si ya decidió antes, no mostramos nada (el consentimiento ya se aplicó en el <head>).
-    var previo = null;
-    try {
-      previo = localStorage.getItem(KEY);
-    } catch (e) {}
-    if (previo === 'accepted' || previo === 'rejected') return;
+    var estado = document.getElementById('cecp-cookies-estado');
+    var btnAceptar = document.getElementById('cecp-cookies-accept');
+    var btnRechazar = document.getElementById('cecp-cookies-reject');
 
-    banner.hidden = false;
+    function leer() {
+      try {
+        return localStorage.getItem(KEY);
+      } catch (e) {
+        return null;
+      }
+    }
+
+    /** Comunica la decisión a Google Consent Mode (si GA llegó a cargar). */
+    function aplicar(valor) {
+      if (typeof window.gtag !== 'function') return;
+      window.gtag('consent', 'update', {
+        analytics_storage: valor === 'accepted' ? 'granted' : 'denied',
+      });
+    }
+
+    /**
+     * Borra las cookies que Google Analytics ya hubiera escrito (_ga, _ga_XXXX,
+     * _gid). Consent Mode deja de usarlas, pero permanecen en el navegador
+     * hasta su vencimiento: al revocar hay que retirarlas de verdad.
+     * Se prueba con el host exacto y con el dominio raíz, porque GA las escribe
+     * sobre el dominio de nivel superior (.cecponline.com).
+     */
+    function borrarCookiesGA() {
+      var host = location.hostname;
+      var dominios = ['', host, '.' + host];
+      var partes = host.split('.');
+      if (partes.length > 2) {
+        var raiz = partes.slice(-2).join('.');
+        dominios.push(raiz, '.' + raiz);
+      }
+      document.cookie.split(';').forEach(function (trozo) {
+        var nombre = trozo.split('=')[0].trim();
+        if (nombre.indexOf('_ga') !== 0 && nombre.indexOf('_gid') !== 0) return;
+        dominios.forEach(function (d) {
+          document.cookie =
+            nombre + '=; max-age=0; path=/' + (d ? '; domain=' + d : '');
+        });
+      });
+    }
+
+    /** @param {boolean} manual - true si lo abrió el visitante desde un enlace. */
+    function mostrar(manual) {
+      var previo = leer();
+      if (estado) {
+        if (manual && previo) {
+          estado.textContent =
+            previo === 'accepted'
+              ? 'Ahora mismo aceptas las cookies de analítica.'
+              : 'Ahora mismo las cookies de analítica están rechazadas.';
+          estado.hidden = false;
+        } else {
+          estado.hidden = true;
+        }
+      }
+      banner.hidden = false;
+      // Al abrirlo a propósito se lleva el foco al aviso; en la primera visita
+      // NO se toca el foco (robárselo al cargar la página es intrusivo).
+      if (manual && btnAceptar) btnAceptar.focus();
+    }
 
     function decidir(valor) {
       try {
         localStorage.setItem(KEY, valor);
       } catch (e) {}
-      if (valor === 'accepted' && typeof window.gtag === 'function') {
-        window.gtag('consent', 'update', { analytics_storage: 'granted' });
-      }
+      aplicar(valor);
+      if (valor === 'rejected') borrarCookiesGA();
       banner.hidden = true;
     }
 
-    document
-      .getElementById('cecp-cookies-accept')
-      .addEventListener('click', function () {
+    if (btnAceptar) {
+      btnAceptar.addEventListener('click', function () {
         decidir('accepted');
       });
-    document
-      .getElementById('cecp-cookies-reject')
-      .addEventListener('click', function () {
+    }
+    if (btnRechazar) {
+      btnRechazar.addEventListener('click', function () {
         decidir('rejected');
       });
+    }
+
+    // Reapertura: cualquier elemento con data-cecp-cookies (pie de página,
+    // política de privacidad) vuelve a abrir el aviso para cambiar la decisión.
+    document.addEventListener('click', function (e) {
+      var disparador = e.target.closest && e.target.closest('[data-cecp-cookies]');
+      if (!disparador) return;
+      e.preventDefault();
+      mostrar(true);
+    });
+
+    // Primera visita (aún sin decisión): se muestra solo.
+    var previo = leer();
+    if (previo !== 'accepted' && previo !== 'rejected') mostrar(false);
   })();
 </script>
 
@@ -80,6 +156,9 @@
     flex-direction: column;
     gap: 14px;
   }
+  .cookies[hidden] {
+    display: none;
+  }
   .cookies__txt {
     margin: 0;
     font-size: 13.5px;
@@ -89,6 +168,15 @@
   .cookies__txt a {
     color: var(--color-azul);
     text-decoration: underline;
+  }
+  .cookies__estado {
+    margin: -4px 0 0;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--color-azul);
+  }
+  .cookies__estado[hidden] {
+    display: none;
   }
   .cookies__acc {
     display: flex;

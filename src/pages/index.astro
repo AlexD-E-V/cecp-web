@@ -15,6 +15,7 @@ import {
   COORDENADAS,
   DIRECCION,
   EMAIL,
+  HORARIO,
   MAPS_SHARE,
   MEMBRESIA,
   NOMBRE_LEGAL,
@@ -38,7 +39,7 @@ const schemaClinica = {
   name: NOMBRE_LEGAL,
   alternateName: 'Cecp Especialidades Médicas',
   description:
-    'Primer centro médico de Guayaquil especializado en Cardiogenética, pionero en el abordaje de la Amiloidosis Cardíaca. Atención integral en pediatría y múltiples especialidades con tecnología cardiovascular respaldada por inteligencia artificial.',
+    'Primer centro médico de Guayaquil especializado en Cardiogenética, pionero en el abordaje de la Amiloidosis Cardíaca. Atención integral en pediatría y múltiples especialidades con tecnología cardiovascular respaldada por inteligencia artificial. Consultorio de lunes a viernes de 7:00 a 16:00, y atención con cita previa los 7 días de la semana, las 24 horas, con servicio a domicilio, emergencias 24/7 y convenios de internación.',
   url: siteUrl,
   logo: `${siteUrl}og-cecp.jpg`,
   image: `${siteUrl}og-cecp.jpg`,
@@ -59,12 +60,17 @@ const schemaClinica = {
     longitude: COORDENADAS.lon,
   },
   hasMap: MAPS_SHARE,
+  // Horas de APERTURA AL PÚBLICO (consultorio sin cita). La disponibilidad
+  // 24/7 con cita previa, el domicilio y las emergencias NO van aquí: en
+  // schema.org este campo alimenta el "Abierto/Cerrado" de Google, y declarar
+  // 24 h llevaría a un paciente a presentarse en la puerta de madrugada.
+  // Esa disponibilidad se declara abajo, en availableService.
   openingHoursSpecification: [
     {
       '@type': 'OpeningHoursSpecification',
-      dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
-      opens: '07:00',
-      closes: '16:00',
+      dayOfWeek: HORARIO.consultorio.diasSchema,
+      opens: HORARIO.consultorio.abre,
+      closes: HORARIO.consultorio.cierra,
     },
   ],
   availableService: [
@@ -73,6 +79,8 @@ const schemaClinica = {
     { '@type': 'MedicalProcedure', name: 'Holter de arritmias 24h' },
     { '@type': 'MedicalProcedure', name: 'Holter de presión (MAPA) 24h' },
     { '@type': 'MedicalProcedure', name: 'Ecocardiograma' },
+    // Disponibilidad anunciada en la sección Horario de la web
+    ...HORARIO.serviciosExtendidos.map((name) => ({ '@type': 'MedicalProcedure', name })),
   ],
   medicalSpecialty: ['Cardiovascular', 'Pediatric', 'Gynecologic', 'Dentistry', 'Genetics'],
   makesOffer: {

@@ -1,6 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
-import { EMAIL, NOMBRE_LEGAL, TELEFONO_DISPLAY } from '../config';
+import { EMAIL, GA_ID, NOMBRE_LEGAL, TELEFONO_DISPLAY } from '../config';
 ---
 
 <!--
@@ -38,6 +38,19 @@ import { EMAIL, NOMBRE_LEGAL, TELEFONO_DISPLAY } from '../config';
       cookies solo se activan si usted las acepta en el aviso de cookies y puede rechazarlas sin que
       ello afecte al funcionamiento del sitio. No se utilizan cookies con fines publicitarios.
     </p>
+    {
+      GA_ID && (
+        <p>
+          Puede <b>cambiar o retirar su consentimiento en cualquier momento</b>, con el mismo
+          esfuerzo con el que lo otorgó. Al retirarlo, las cookies de analítica que se hubieran
+          creado se eliminan de su navegador.
+          <br />
+          <button type="button" class="legal-cookies" data-cecp-cookies>
+            Cambiar mis preferencias de cookies
+          </button>
+        </p>
+      )
+    }
 
     <h2 id="datos-pacientes">4. Protección de datos de pacientes</h2>
     <p>
@@ -73,5 +86,26 @@ import { EMAIL, NOMBRE_LEGAL, TELEFONO_DISPLAY } from '../config';
   .legal p {
     color: var(--color-gris);
     font-size: 15px;
+  }
+  .legal-cookies {
+    margin-top: 10px;
+    background: none;
+    border: 1px solid var(--color-celeste);
+    border-radius: 10px;
+    padding: 9px 18px;
+    font-family: var(--font-ui);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--color-azul);
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .legal-cookies:hover {
+    background: var(--color-celeste-suave);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .legal-cookies {
+      transition: none;
+    }
   }
 </style>
