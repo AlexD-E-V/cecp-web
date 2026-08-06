@@ -12,9 +12,10 @@ export default defineConfig({
   integrations: [
     react(),
     sitemap({
-      // Fuera del sitemap: páginas legales en borrador (noindex) y la 404
-      filter: (page) =>
-        !page.includes('/privacidad') && !page.includes('/terminos') && !page.includes('/404'),
+      // Fuera del sitemap solo la 404. Las páginas legales SÍ entran: están
+      // publicadas y conviene que Google las indexe (son señal de confianza y
+      // el aviso de cookies enlaza a /privacidad).
+      filter: (page) => !page.includes('/404'),
     }),
   ],
   vite: {

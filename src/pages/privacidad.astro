@@ -1,20 +1,27 @@
 ---
 import Base from '../layouts/Base.astro';
 import { EMAIL, GA_ID, NOMBRE_LEGAL, TELEFONO_DISPLAY } from '../config';
+
+// ACTUALIZAR al cambiar cualquier texto de esta página (p. ej. tras una revisión
+// legal). Formato ISO para la máquina, texto en español para la persona.
+const ACTUALIZADO_ISO = '2026-08-05';
+const ACTUALIZADO_TXT = '5 de agosto de 2026';
 ---
 
 <!--
-  Textos legales del sitio (versión publicable). Cubren el uso informativo de la web
-  y sus canales de contacto conforme a la LOPDP de Ecuador. Pendiente: validación
-  final por un profesional legal (no bloquea la publicación).
+  Textos legales del sitio. Cubren el uso informativo de la web y sus canales de
+  contacto conforme a la LOPDP de Ecuador. Pendiente: validación final por un
+  profesional legal (no bloquea la publicación — ver PENDIENTES.md §3).
 -->
 <Base
   title="Política de privacidad | CECP Centro de Especialidades"
   description="Política de privacidad y protección de datos de pacientes de CECP, Centro de Especialidades Médicas en Guayaquil."
-  noindex
 >
   <main class="legal container-cecp">
     <h1>Política de privacidad</h1>
+    <p class="legal-fecha">
+      Última actualización: <time datetime={ACTUALIZADO_ISO}>{ACTUALIZADO_TXT}</time>
+    </p>
 
     <h2>1. Responsable del tratamiento</h2>
     <p>
@@ -86,6 +93,13 @@ import { EMAIL, GA_ID, NOMBRE_LEGAL, TELEFONO_DISPLAY } from '../config';
   .legal p {
     color: var(--color-gris);
     font-size: 15px;
+  }
+  .legal-fecha {
+    font-size: 13.5px;
+    color: var(--color-gris);
+    opacity: 0.85;
+    margin-top: -12px;
+    margin-bottom: 8px;
   }
   .legal-cookies {
     margin-top: 10px;
