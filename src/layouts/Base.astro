@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import { Font } from 'astro:assets';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import AvisoCookies from '../components/AvisoCookies.astro';
@@ -33,12 +34,19 @@ const ogImage = new URL('/og-cecp.jpg', Astro.site);
     <meta name="geo.region" content="EC-G" />
     <meta name="geo.placename" content="Guayaquil, Atarazana" />
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Poppins:wght@400;500;600&family=Inter:wght@400;500&display=swap"
-      rel="stylesheet"
-    />
+    {/* Tipografías servidas desde este mismo dominio (ver `fonts` en
+        astro.config.ts). Ya no hay preconnect a Google: no queda ninguna
+        petición a servidores ajenos para pintar el texto.
+
+        `preload` solo en Montserrat e Inter: son variables (un archivo cada
+        una) y cubren titulares y cuerpo de texto. Poppins queda fuera porque
+        son 3 archivos estáticos, y precargarlos competiría con la imagen del
+        hero —que es lo que marca el LCP— para ganar milisegundos en botones y
+        menú. Astro genera tipografías de reserva con métricas ajustadas, así
+        que el cambio apenas mueve el diseño. */}
+    <Font cssVariable="--fuente-montserrat" preload />
+    <Font cssVariable="--fuente-inter" preload />
+    <Font cssVariable="--fuente-poppins" />
 
     <link rel="icon" type="image/png" href="/favicon.png" />
     <link rel="apple-touch-icon" href="/favicon.png" />

@@ -12,9 +12,12 @@
   --color-gris-claro: #f5f8fb;
   --color-whatsapp: #25d366;
 
-  --font-display: "Montserrat", sans-serif;
-  --font-ui: "Poppins", sans-serif;
-  --font-body: "Inter", sans-serif;
+  /* Los nombres de familia los define Astro al autohospedar las fuentes (ver
+     `fonts` en astro.config.ts) e incluyen ya sus tipografías de reserva.
+     Los tokens del sitio siguen llamándose igual: ningún componente cambia. */
+  --font-display: var(--fuente-montserrat);
+  --font-ui: var(--fuente-poppins);
+  --font-body: var(--fuente-inter);
 
   --shadow-suave: 0 12px 40px rgba(14, 58, 93, 0.1);
   --radius-tarjeta: 18px;

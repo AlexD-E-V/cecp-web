@@ -94,7 +94,12 @@ const galeria = [
       </div>
     </div>
     <div class="hero-visual" data-plx="-0.12">
-      <CarruselPortada client:load slides={slides} />
+      {/* client:idle y no client:load: la PRIMERA foto ya viene en el HTML, así
+          que se ve igual de rápido en ambos casos. React (59 KB comprimidos)
+          solo hace falta para que el carrusel rote y para el botón de pausa —
+          nada de eso es urgente, así que se descarga cuando el navegador ya
+          terminó lo importante, en vez de competir con el primer pintado. */}
+      <CarruselPortada client:idle slides={slides} />
       <div class="mini-galeria" data-plx="-0.06">
         {
           galeria.map((g, i) => (
