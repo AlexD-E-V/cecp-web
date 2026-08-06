@@ -36,7 +36,14 @@ export default function CarruselPortada({ slides, intervalo = 3200 }: Props) {
   return (
     <div className="panel-foto">
       {slides.map((s, i) => (
-        <div key={s.src} className={`slide${i === activo ? ' activa' : ''}`}>
+        // Las slides ocultas se marcan aria-hidden: sin esto un lector de
+        // pantalla leía las cuatro descripciones seguidas, aunque solo una
+        // estuviera visible.
+        <div
+          key={s.src}
+          className={`slide${i === activo ? ' activa' : ''}`}
+          aria-hidden={i !== activo}
+        >
           <img
             src={s.src}
             alt={s.alt}

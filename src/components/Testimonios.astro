@@ -2,7 +2,7 @@
 import { testimonios } from '../data/testimonios';
 import Testimonio from './Testimonio.astro';
 import BotonWhatsApp from './BotonWhatsApp.astro';
-import { MAPS_SHARE, REVIEW_URL } from '../config';
+import { MAPS_SHARE, RESENAS, REVIEW_URL } from '../config';
 
 const delays = [1, 2, 3, 1, 2];
 ---
@@ -19,9 +19,9 @@ const delays = [1, 2, 3, 1, 2];
               class="g-b">g</span
             ><span class="g-g">l</span><span class="g-r">e</span></span
           >
-          <b>5.0</b>
-          <span class="stars">★★★★★</span>
-          <span class="n-resenas">· 68 reseñas verificadas</span>
+          <b>{RESENAS.calificacion}</b>
+          <span class="stars" aria-hidden="true">★★★★★</span>
+          <span class="n-resenas">· {RESENAS.total} reseñas verificadas</span>
         </span>
       </div>
     </div>

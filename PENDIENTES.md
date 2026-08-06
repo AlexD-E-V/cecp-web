@@ -136,7 +136,20 @@ Analytics, Ads y Business Profile.
 
 ---
 
-## 6. Marketing: medir antes de gastar
+## 6. ¿Se enlaza el TikTok en la página?
+
+- La cuenta **`@cecp_plus`** está en `REDES` (`src/config.ts`) y se declara a Google en
+  el `sameAs` del JSON-LD, pero **no se enlaza en ninguna parte visible**: ni en el pie
+  ni en la sección de Contacto, que solo muestran Facebook, Instagram, correo y teléfono.
+- **Acción: preguntar al doctor si quiere sumar TikTok a la web.**
+  - Si **sí** → añadir el icono en `Footer.astro` y en `Contacto.astro`, junto a los otros.
+  - Si **no** (p. ej. la cuenta está inactiva o no la quieren asociar al centro) → quitar
+    `tiktok` de `REDES` y del `sameAs`, para no declararle a Google un perfil que no se
+    reconoce como propio.
+- No se tocó nada a la espera de esa respuesta. Hoy la única inconsistencia es que Google
+  conoce el perfil y los pacientes no.
+
+## 7. Marketing: medir antes de gastar
 
 Secuencia recomendada, y el orden importa:
 

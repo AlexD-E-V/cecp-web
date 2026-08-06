@@ -654,6 +654,22 @@ dialog.pm::backdrop {
   pointer-events: none;
 }
 
+/* ===== Foco visible para quien navega con teclado =====
+   `:focus-visible` (y no `:focus`) para que el anillo aparezca al tabular pero
+   no al hacer clic con el ratón. El azul oscuro da 11.9:1 de contraste sobre
+   fondo blanco, muy por encima del 3:1 que pide la WCAG para indicadores. */
+:focus-visible {
+  outline: 3px solid var(--color-azul-oscuro);
+  outline-offset: 2px;
+}
+
+/* Sobre las dos superficies oscuras del sitio (pie de página y membresía) ese
+   azul se pierde contra el fondo: ahí el anillo va en blanco. */
+footer :focus-visible,
+.memb :focus-visible {
+  outline-color: #fff;
+}
+
 /* ===== Reduced motion: apaga todo movimiento ===== */
 @media (prefers-reduced-motion: reduce) {
   *,
@@ -665,5 +681,11 @@ dialog.pm::backdrop {
   .reveal {
     opacity: 1;
     transform: none;
+  }
+  /* El desplazamiento suave al pulsar un ancla del menú es justo el tipo de
+     movimiento que molesta a quien tiene trastornos vestibulares. El bloque de
+     arriba no lo cubre: no es animación ni transición, es scroll-behavior. */
+  html {
+    scroll-behavior: auto;
   }
 }

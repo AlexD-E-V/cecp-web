@@ -97,6 +97,21 @@ export const REDES = {
   tiktok: 'https://www.tiktok.com/@cecp_plus',
 };
 
+/**
+ * Insignia de reseñas de Google que se muestra sobre los testimonios.
+ *
+ * ⚠️ Son datos que envejecen solos: hay que cotejarlos con la ficha real de
+ * Google cada cierto tiempo (revisión semestral del plan de mantenimiento).
+ * No entran en el JSON-LD a propósito: Google ignora —y puede penalizar— las
+ * valoraciones que un sitio se autodeclara. Las reseñas reales viven en Maps.
+ *
+ * Última comprobación contra la ficha: 2026-07-08.
+ */
+export const RESENAS = {
+  calificacion: '5.0',
+  total: 68,
+};
+
 export const MAPS_URL =
   'https://www.google.com/maps/search/?api=1&query=CECP+Centro+de+Especialidades+Av+Pedro+Men%C3%A9ndez+Gilbert+Atarazana+Guayaquil';
 export const MAPS_SHARE = 'https://maps.app.goo.gl/8g8G5zC1cHTYJM6p6';

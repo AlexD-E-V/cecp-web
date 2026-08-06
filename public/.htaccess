@@ -3,11 +3,47 @@
 # Página de error 404 personalizada (generada por Astro en /404.html)
 ErrorDocument 404 /404.html
 
-# Los assets generados por el build llevan hash en el nombre: si el contenido
-# cambia, cambia la URL. Se pueden cachear un año como inmutables.
-# (favicon.png, og-cecp.jpg y robots.txt no entran: no llevan hash)
 <IfModule mod_headers.c>
+  # ===== Caché de assets =====
+  # Los assets generados por el build llevan hash en el nombre: si el contenido
+  # cambia, cambia la URL. Se pueden cachear un año como inmutables.
+  # (favicon.png, og-cecp.jpg y robots.txt no entran: no llevan hash)
   <FilesMatch "\.(css|js|webp|woff2)$">
     Header set Cache-Control "public, max-age=31536000, immutable"
   </FilesMatch>
+
+  # ===== Cabeceras de seguridad =====
+  # Sitio estático de un centro médico: son baratas de mantener y evitan
+  # hallazgos en cualquier auditoría externa.
+
+  # Impide que el navegador "adivine" el tipo de un archivo ignorando el
+  # Content-Type declarado. Cierra la vía de subir algo con extensión inocente
+  # que el navegador acabe ejecutando como script.
+  Header always set X-Content-Type-Options "nosniff"
+
+  # Al salir del sitio se envía solo el dominio (no la URL completa), y nada en
+  # absoluto si el destino es http. Evita filtrar la página exacta que veía el
+  # paciente —p. ej. una especialidad concreta— a servidores de terceros.
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+
+  # Nadie puede incrustar el sitio dentro de un iframe ajeno. Bloquea el
+  # clickjacking: superponer una web falsa sobre la real para robar clics.
+  Header always set X-Frame-Options "SAMEORIGIN"
+
+  # Desactiva APIs del navegador que este sitio no usa. Si algún script de
+  # terceros intentara pedir cámara, micrófono o ubicación, el navegador
+  # ni siquiera muestra el aviso al paciente.
+  Header always set Permissions-Policy "geolocation=(), camera=(), microphone=(), payment=(), usb=()"
+
+  # HSTS: obliga al navegador a usar HTTPS durante un año, sin pasar por la
+  # redirección desde http. Sin `includeSubDomains` ni `preload` a propósito:
+  # ambos son compromisos difíciles de revertir y afectarían a subdominios
+  # (webmail, etc.) que no controlamos desde aquí.
+  Header always set Strict-Transport-Security "max-age=31536000"
+
+  # NOTA sobre Content-Security-Policy: no se añade todavía. Una CSP útil aquí
+  # exigiría permitir scripts y estilos en línea ('unsafe-inline'), porque el
+  # sitio usa varios (Consent Mode, loader, aviso de cookies) — y eso anularía
+  # casi todo su beneficio. Hacerla bien requiere nonces o hashes por build.
+  # Queda como trabajo de la revisión anual.
 </IfModule>

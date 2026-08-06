@@ -52,6 +52,8 @@ export default function Particulas(cfg: Props) {
     let parts: Particula[] = [];
     let activo = false;
     let prog = 0;
+    /** id del frame pendiente: garantiza que solo haya UN bucle vivo */
+    let frame = 0;
 
     const medir = () => {
       W = sec.offsetWidth;
@@ -94,7 +96,7 @@ export default function Particulas(cfg: Props) {
         }
       }
       ctx.globalAlpha = 1;
-      if (activo) requestAnimationFrame(pintar);
+      frame = activo ? requestAnimationFrame(pintar) : 0;
     };
 
     medir();
@@ -106,8 +108,12 @@ export default function Particulas(cfg: Props) {
     ro.observe(sec);
     const io = new IntersectionObserver((en) => {
       en.forEach((x) => {
+        // Sin este corte, dos avisos seguidos de "visible" arrancaban un
+        // segundo bucle sobre el que ya corría: el canvas se repintaba el
+        // doble de veces por frame, gastando batería sin que se notara nada.
+        if (x.isIntersecting === activo) return;
         activo = x.isIntersecting;
-        if (activo) requestAnimationFrame(pintar);
+        if (activo && !frame) frame = requestAnimationFrame(pintar);
       });
     });
     io.observe(sec);
@@ -119,6 +125,7 @@ export default function Particulas(cfg: Props) {
 
     return () => {
       activo = false;
+      if (frame) cancelAnimationFrame(frame);
       ro.disconnect();
       io.disconnect();
       removeEventListener('scroll', onScroll);
