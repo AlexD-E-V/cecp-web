@@ -40,7 +40,7 @@ export const COORDENADAS = { lat: -2.1722918, lon: -79.8798405 };
  * JSON-LD de la portada. Cambiar el horario = editar solo este bloque.
  *
  * El horario válido es el APROBADO POR EL TITULAR y publicado en esta web. Si la
- * ficha de Google Maps muestra otro, se corrige la ficha (ver PENDIENTES.md).
+ * ficha de Google Maps muestra otro, se corrige la ficha (ver PENDIENTES.md §2.b).
  */
 export const HORARIO = {
   /**

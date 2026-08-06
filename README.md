@@ -37,18 +37,46 @@ cacheo de assets para Apache/LiteSpeed).
 | Horario de atención (sección visible, resumen de Contacto y JSON-LD a la vez) | `src/config.ts` → `HORARIO` |
 | ID de Google Analytics (vacío = sin analítica ni aviso de cookies) | `src/config.ts` → `GA_ID` |
 | Precio y descuento de la Membresía Familiar | `src/config.ts` → `MEMBRESIA` |
+| Calificación y nº de reseñas de la insignia de Google | `src/config.ts` → `RESENAS` |
 | Especialidades, médicos, procedimientos de los modales | `src/data/especialidades.ts` |
-| Reseñas | `src/data/testimonios.ts` |
-| Colores y fuentes (tokens) | `src/styles/global.css` (`@theme`) |
+| Textos de los testimonios | `src/data/testimonios.ts` |
+| Colores y tokens de diseño | `src/styles/global.css` (`@theme`) |
+| Tipografías (familias y pesos; se autohospedan en el build) | `astro.config.ts` → `fonts` |
 | SEO base, Open Graph, favicon | `src/layouts/Base.astro` |
 | Fotos | `src/assets/img/` (se piden por nombre sin extensión vía el helper `img()`; se optimizan solas en el build) |
 | Loader de bienvenida y campanada (duración: `GRACIA`) | `src/components/Loader.astro` |
 
-## Mantenimiento de seguridad
+## Tipografías
+
+Se **autohospedan**: Astro las descarga en el build (`fonts` en `astro.config.ts`)
+y las sirve desde el propio dominio. **No añadir el `<link>` a
+`fonts.googleapis.com`** — se quitó a propósito. Además de ahorrar dos conexiones
+a servidores ajenos, evita enviar la IP de cada visitante a Google antes de que
+haya consentido nada, que es lo que promete la política de privacidad.
+
+Los tokens del sitio (`--font-display`, `--font-ui`, `--font-body` en
+`global.css`) apuntan a las variables que genera Astro, así que para cambiar una
+familia o un peso basta con editar `astro.config.ts`.
+
+## Seguridad del servidor
+
+`public/.htaccess` define cinco cabeceras: `X-Content-Type-Options`,
+`Referrer-Policy`, `X-Frame-Options`, `Permissions-Policy` y HSTS. El propio
+archivo documenta por qué HSTS va sin `includeSubDomains` y por qué todavía no
+hay `Content-Security-Policy`.
+
+## Mantenimiento de dependencias
 
 Hostinger escanea las dependencias tras cada deploy. Cuando reporte
 vulnerabilidades: `npm audit` en local, actualizar los paquetes señalados,
 `npm run check` + `npm run build` para validar, y push (el deploy re-escanea).
+
+> **Parar `npm run dev` antes de tocar dependencias.** `npm ci` borra y reinstala
+> `node_modules` entero; si el servidor de desarrollo sigue vivo, Vite queda
+> apuntando a archivos que ya no existen y el sitio se ve roto de forma engañosa:
+> el HTML y el CSS siguen bien, pero **las cuatro islas de React (carrusel,
+> partículas, modales y globo) dejan de aparecer**. No se ha roto nada del código
+> — se arregla reiniciando el servidor.
 
 Conviene una pasada **trimestral** aunque no haya avisos: entre el 21 de julio y el
 5 de agosto de 2026, sin tocar el proyecto, aparecieron 2 vulnerabilidades y 11
