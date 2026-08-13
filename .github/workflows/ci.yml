@@ -21,11 +21,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      # Las versiones de las acciones (@v7) son las del runtime de Node que usa
+      # GitHub para ejecutarlas — NO tienen relación con el `node-version: '22'`
+      # de abajo, que es el Node con el que se construye el sitio. Con @v4 el
+      # runner avisaba de que esas acciones apuntan a Node 20, ya retirado, y
+      # que las estaba forzando sobre Node 24: una tirita temporal de GitHub.
+      - uses: actions/checkout@v7
 
       # Node 22: la misma versión que usa el build de Hostinger. Mantenerlas
       # iguales evita que algo pase aquí y falle allá (o al revés).
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
           node-version: '22'
           cache: npm
@@ -33,6 +38,27 @@ jobs:
       # `npm ci` (y no `npm install`): instala exactamente lo que fija
       # package-lock.json, sin actualizar nada por su cuenta.
       - run: npm ci
+
+      # Caché de las tipografías. Va DESPUÉS de `npm ci` a propósito: esa orden
+      # borra `node_modules` entero, así que restaurarla antes no serviría de
+      # nada.
+      #
+      # Por qué hace falta: el build DESCARGA las tipografías de los servidores
+      # de Google (ver `fonts` en astro.config.ts). Es la única dependencia de
+      # red que tiene, y por tanto la única vía por la que un build puede
+      # fallar sin que nadie haya tocado el código — ya pasó una vez, el
+      # 2026-08-12, y al relanzar el mismo commit salió verde.
+      #
+      # La clave incluye el hash de astro.config.ts: si cambian las familias o
+      # los pesos, la caché se invalida sola y se vuelven a descargar.
+      #
+      # Esto REDUCE el problema, no lo elimina: si la clave no acierta (cambio
+      # de configuración, o caché desalojada por falta de uso) se descarga igual.
+      - name: Caché de tipografías
+        uses: actions/cache@v6
+        with:
+          path: node_modules/.astro/fonts
+          key: fuentes-${{ hashFiles('astro.config.ts') }}
 
       - name: Verificación de tipos (astro check)
         run: npm run check

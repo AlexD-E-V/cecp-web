@@ -69,6 +69,27 @@ Los tokens del sitio (`--font-display`, `--font-ui`, `--font-body` en
 `global.css`) apuntan a las variables que genera Astro, así que para cambiar una
 familia o un peso basta con editar `astro.config.ts`.
 
+### El build sí necesita alcanzar a Google (los visitantes no)
+
+Conviene no confundir las dos cosas, porque la diferencia importa el día que
+algo falle:
+
+- **Al visitar el sitio** no se hace ninguna petición a Google. Las tipografías
+  se sirven desde cecponline.com. Eso es lo que protege la IP del visitante y lo
+  que promete la política de privacidad.
+- **Al construir el sitio**, Astro **descarga** esas tipografías de los
+  servidores de Google. Es la única dependencia de red que tiene el build.
+
+Consecuencia práctica: si Google Fonts no responde durante un despliegue, **el
+build falla aunque nadie haya tocado el código** — y eso vale tanto para el CI
+como para el despliegue de Hostinger. Ya ocurrió una vez (2026-08-12): el CI se
+puso en rojo en un commit que solo cambiaba un número, y al relanzar el mismo
+commit salió verde.
+
+Ante un build que falla sin cambios que lo expliquen, **relanzarlo es la primera
+comprobación**, no revisar el código. El CI cachea las tipografías entre
+ejecuciones para que pase menos, pero no lo elimina del todo.
+
 ## Seguridad del servidor
 
 `public/.htaccess` define cinco cabeceras: `X-Content-Type-Options`,
