@@ -135,11 +135,11 @@ export const REDES = {
  * No entran en el JSON-LD a propósito: Google ignora —y puede penalizar— las
  * valoraciones que un sitio se autodeclara. Las reseñas reales viven en Maps.
  *
- * Última comprobación contra la ficha: 2026-07-08.
+ * Última comprobación contra la ficha: 2026-08-12 (5.0 · 75 reseñas).
  */
 export const RESENAS = {
   calificacion: '5.0',
-  total: 68,
+  total: 75,
 };
 
 export const MAPS_URL =

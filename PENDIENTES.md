@@ -166,3 +166,41 @@ Secuencia recomendada, y el orden importa:
 > El sitio no usa cookies publicitarias y `ad_storage` está denegado siempre. Si algún día
 > se hace Ads, hay que revisar el aviso de cookies y la política de privacidad **antes** de
 > encenderlo.
+
+---
+
+## Resumen para hablarlo con el doctor
+
+Los mismos siete puntos de arriba, en una línea cada uno y sin tecnicismos. Sirve
+para llevar la conversación sin abrir el documento entero. **Ninguno depende del
+código: los siete se resuelven hablando.**
+
+1. **Cuenta de Google de la clínica.** Hoy Analytics y Search Console cuelgan de una
+   cuenta técnica del desarrollador. Deberían ser de la clínica, con el desarrollador
+   como administrador.
+2. **Acceso a la ficha de Google Maps.** Ya existe y alguien la gestiona — hay que
+   averiguar quién y pedirle acceso. Incluye revisar que el horario de la ficha
+   coincida con el de la web: **manda la ficha, no la web.**
+3. **El correo del dominio es gratis solo el primer año.** Avisar antes de que llegue
+   el cobro de sorpresa.
+4. **Revisión legal** de privacidad y términos por un abogado (datos de salud = datos
+   sensibles bajo la LOPDP).
+5. **"Emergencias 24/7".** Confirmar que se coordinan por WhatsApp, y decidir si se
+   aclara en la web para que nadie se presente en la puerta de madrugada.
+6. **¿Se enlaza el TikTok?** Google ya conoce la cuenta, pero en la web no aparece por
+   ningún lado. O se pone, o se quita de los datos declarados.
+7. **Marketing, en este orden:** Search Console → ficha de Google → leer lo que GA4 ya
+   está midiendo → y recién entonces, si acaso, Google Ads.
+
+### Sobre las reseñas nuevas de Google
+
+Las reseñas individuales **no hay que hacer nada con ellas**: no se copian a la web
+salvo que aporten algo que las cinco de `src/data/testimonios.ts` no digan ya. Lo
+único que sí envejece y hay que mantener es el **contador de la insignia**
+(`RESENAS` en `src/config.ts`), y para eso no sirven las reseñas sueltas: hace falta
+el total que aparece arriba de la ficha, junto a la valoración global.
+
+Criterio para decidir si una reseña merece subir a la web: que sea concreta (mencione
+un procedimiento, un equipo, un profesional) y que el nombre de quien la firma no
+haga dudar de su autenticidad. Una reseña genérica o firmada con un alias comercial
+resta credibilidad al bloque de testimonios, aunque en Google sume.
