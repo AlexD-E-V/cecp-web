@@ -13,7 +13,17 @@ const delays = [1, 2, 3, 1, 2];
       <span class="tag">Testimonios reales</span>
       <h2>Lo que nuestros pacientes dicen en Google</h2>
       <div class="badge-wrap">
-        <span class="testi-badge">
+        {/* role="img" + aria-label: la insignia es un dibujo hecho de trozos
+            sueltos (el logo letra a letra, el 5.0, las estrellas y el conteo).
+            Leída pieza por pieza no se entendía —las estrellas están
+            aria-hidden y el "5.0" quedaba suelto, sin decir de qué—, así que se
+            expone como una sola imagen con su descripción. El aspecto no
+            cambia. */}
+        <span
+          class="testi-badge"
+          role="img"
+          aria-label={`Calificación en Google: ${RESENAS.calificacion} de 5, según ${RESENAS.total} reseñas verificadas`}
+        >
           <span class="g-logo"
             ><span class="g-b">G</span><span class="g-r">o</span><span class="g-y">o</span><span
               class="g-b">g</span

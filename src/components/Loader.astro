@@ -76,7 +76,11 @@
     function campanada() {
       if (sono) return;
       try {
-        var AC = window.AudioContext || window.webkitAudioContext;
+        // El cast en comentario es para el verificador de tipos: Safari antiguo
+        // solo expone webkitAudioContext, que no está en la definición de Window.
+        // Al ser un script is:inline se emite tal cual, así que tiene que ser
+        // JavaScript válido — de ahí el JSDoc y no una anotación de TypeScript.
+        var AC = window.AudioContext || /** @type {any} */ (window).webkitAudioContext;
         var actx = new AC();
         if (actx.state === 'suspended') {
           actx.close();

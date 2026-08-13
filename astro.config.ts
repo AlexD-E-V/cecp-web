@@ -2,6 +2,7 @@ import { defineConfig, fontProviders } from 'astro/config';
 import react from '@astrojs/react';
 import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
+import { LEGAL_ACTUALIZADO } from './src/config';
 
 // Dominio oficial. Mantener en sincronía con SITE_URL en src/config.ts.
 // Publicar este build solo cuando cecponline.com ya apunte al hosting.
@@ -60,6 +61,22 @@ export default defineConfig({
       // publicadas y conviene que Google las indexe (son señal de confianza y
       // el aviso de cookies enlaza a /privacidad).
       filter: (page) => !page.includes('/404'),
+
+      /**
+       * `lastmod` SOLO en las páginas cuya fecha de cambio conocemos de verdad
+       * (las legales, desde LEGAL_ACTUALIZADO en src/config.ts).
+       *
+       * La alternativa fácil —`lastmod: new Date()`— se descartó a propósito:
+       * pondría la fecha del build en todas las páginas, afirmando que la
+       * portada cambió cada vez que se despliega cualquier cosa. Google ignora
+       * el campo cuando detecta que siempre dice "hoy", así que declararlo mal
+       * es peor que no declararlo.
+       */
+      serialize(item) {
+        const fecha = LEGAL_ACTUALIZADO[new URL(item.url).pathname];
+        if (fecha) item.lastmod = new Date(fecha).toISOString();
+        return item;
+      },
     }),
   ],
   vite: {

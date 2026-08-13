@@ -48,6 +48,7 @@ cacheo de assets para Apache/LiteSpeed).
 | ID de Google Analytics (vacío = sin analítica ni aviso de cookies) | `src/config.ts` → `GA_ID` |
 | Precio y descuento de la Membresía Familiar | `src/config.ts` → `MEMBRESIA` |
 | Calificación y nº de reseñas de la insignia de Google | `src/config.ts` → `RESENAS` |
+| Fecha de última actualización de las páginas legales (visible y `lastmod` del sitemap) | `src/config.ts` → `LEGAL_ACTUALIZADO` |
 | Especialidades, médicos, procedimientos de los modales | `src/data/especialidades.ts` |
 | Textos de los testimonios | `src/data/testimonios.ts` |
 | Colores y tokens de diseño | `src/styles/global.css` (`@theme`) |
@@ -133,10 +134,17 @@ Las conversiones de WhatsApp y llamada están instrumentadas en
 `/privacidad` y `/terminos` están publicadas, indexadas y en el sitemap, con fecha
 de última actualización visible.
 
-Al modificar su texto (por ejemplo tras una revisión legal), **actualizar las
-constantes `ACTUALIZADO_ISO` y `ACTUALIZADO_TXT`** al inicio de cada página. El
-sitemap se regenera solo en cada build; solo haría falta intervenir si cambiara la
-URL de la página, en cuyo caso hay que añadir una redirección.
+Al modificar su texto (por ejemplo tras una revisión legal), **actualizar la
+fecha en `LEGAL_ACTUALIZADO` (`src/config.ts`)**. De esa única fecha salen tanto
+la fecha visible en la página —el texto en español se deriva de ella, no se
+escribe a mano— como el `lastmod` que la página declara en el sitemap. El sitemap
+se regenera solo en cada build; solo haría falta intervenir si cambiara la URL de
+la página, en cuyo caso hay que añadir una redirección.
+
+El resto de páginas **no lleva `lastmod` a propósito**: no rastreamos cuándo
+cambió su contenido de verdad, y poner la fecha del build en todas afirmaría que
+la portada cambia con cada despliegue. Google deja de fiarse del campo cuando ve
+que siempre dice "hoy".
 
 ## ⚠️ Pendientes
 

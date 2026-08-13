@@ -91,6 +91,36 @@ export const HORARIO = {
   ],
 };
 
+/**
+ * Última actualización real del texto de cada página legal — ÚNICA fuente de
+ * verdad. Al aplicar correcciones (p. ej. de un abogado) se edita SOLO aquí.
+ *
+ * La consumen dos sitios: la fecha visible de cada página y el `lastmod` del
+ * sitemap (ver `serialize` en astro.config.ts). El texto en español se deriva
+ * de esta misma fecha, así que no pueden contradecirse.
+ *
+ * El resto de páginas NO lleva `lastmod` a propósito: no rastreamos cuándo
+ * cambió su contenido de verdad, y poner la fecha del build en todas diría que
+ * la portada cambia cada vez que se despliega cualquier cosa. Google deja de
+ * fiarse del campo cuando lo ve siempre "hoy"; es mejor no declararlo.
+ */
+export const LEGAL_ACTUALIZADO: Record<string, string> = {
+  '/privacidad/': '2026-08-05',
+  '/terminos/': '2026-08-05',
+};
+
+/** La fecha de arriba escrita para una persona: "5 de agosto de 2026". */
+export function fechaLarga(iso: string): string {
+  // timeZone UTC: `new Date('2026-08-05')` es medianoche UTC, y al formatearla
+  // en un huso al oeste (Guayaquil es UTC-5) se leería el día anterior.
+  return new Intl.DateTimeFormat('es-EC', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+    timeZone: 'UTC',
+  }).format(new Date(iso));
+}
+
 export const REDES = {
   facebook: 'https://www.facebook.com/especialidadescecp/',
   instagram: 'https://www.instagram.com/cecp_especialidades/',

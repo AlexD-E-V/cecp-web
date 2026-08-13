@@ -1,11 +1,19 @@
 ---
 import Base from '../layouts/Base.astro';
-import { EMAIL, GA_ID, NOMBRE_LEGAL, TELEFONO_DISPLAY } from '../config';
+import {
+  EMAIL,
+  GA_ID,
+  LEGAL_ACTUALIZADO,
+  NOMBRE_LEGAL,
+  TELEFONO_DISPLAY,
+  fechaLarga,
+} from '../config';
 
 // ACTUALIZAR al cambiar cualquier texto de esta página (p. ej. tras una revisión
-// legal). Formato ISO para la máquina, texto en español para la persona.
-const ACTUALIZADO_ISO = '2026-08-05';
-const ACTUALIZADO_TXT = '5 de agosto de 2026';
+// legal) editando LEGAL_ACTUALIZADO en src/config.ts. De ahí salen tanto esta
+// fecha visible como el `lastmod` que la página declara en el sitemap.
+const ACTUALIZADO_ISO = LEGAL_ACTUALIZADO['/privacidad/'];
+const ACTUALIZADO_TXT = fechaLarga(ACTUALIZADO_ISO);
 ---
 
 <!--
