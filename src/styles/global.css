@@ -181,6 +181,9 @@
   justify-content: center;
   cursor: pointer;
   box-shadow: 0 14px 34px rgba(37, 211, 102, 0.5);
+  /* Sin transición de opacity/visibility a propósito: este botón es la vía de
+     contacto principal y no puede quedarse invisible si una transición no
+     llega a completarse. Aparece y desaparece de golpe. */
   transition: transform 0.3s;
 }
 .wa-float::after {
@@ -199,6 +202,16 @@
 }
 .wa-float:hover {
   transform: scale(1.1);
+}
+/* Mientras el aviso de cookies está abierto, el botón flotante se retira: en
+   pantallas de menos de ~736 px el aviso ocupa casi todo el ancho y sus botones
+   van justificados a la derecha, justo donde vive este botón. El aviso ya pasa
+   por encima (z-index 2100 vs 2000), así que el clic llega bien; esto evita
+   además que asome por detrás. Dura lo que tarde el visitante en decidir. */
+html.cecp-cookies-abierto .wa-float {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
 }
 .wa-float svg {
   width: 32px;
@@ -655,6 +668,33 @@ dialog.pm::backdrop {
   height: 100%;
   z-index: 0;
   pointer-events: none;
+}
+
+/* ===== Saltar al contenido =====
+   Fuera de la pantalla hasta que recibe el foco (y no con `display:none`, que
+   lo sacaría del orden de tabulación y lo volvería inalcanzable). Por encima de
+   la cabecera fija (z-index 900) para que no quede tapado al aparecer. */
+.skip-link {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  z-index: 1000;
+  background: var(--color-azul-oscuro);
+  color: #fff;
+  font-family: var(--font-ui);
+  font-weight: 600;
+  font-size: 14px;
+  padding: 12px 20px;
+  border-radius: 10px;
+  box-shadow: 0 12px 30px rgba(14, 58, 93, 0.3);
+  transform: translateY(-150%);
+}
+/* `:focus` y no `:focus-visible`: a este enlace solo se llega con el teclado, y
+   con `:focus-visible` no se revelaría si el foco le llega por vía programática
+   —dejando al visitante con un control enfocado que no puede ver—. Sin
+   transición, por lo mismo: aparece de golpe o no aparece. */
+.skip-link:focus {
+  transform: none;
 }
 
 /* ===== Foco visible para quien navega con teclado =====

@@ -98,6 +98,10 @@
         }
       }
       banner.hidden = false;
+      // Marca en <html> mientras el aviso está a la vista: global.css la usa
+      // para retirar el botón flotante de WhatsApp, que en pantallas estrechas
+      // se solapa con los botones del aviso (ver la regla .wa-float).
+      document.documentElement.classList.add('cecp-cookies-abierto');
       // Al abrirlo a propósito se lleva el foco al aviso; en la primera visita
       // NO se toca el foco (robárselo al cargar la página es intrusivo).
       if (manual && btnAceptar) btnAceptar.focus();
@@ -110,6 +114,7 @@
       aplicar(valor);
       if (valor === 'rejected') borrarCookiesGA();
       banner.hidden = true;
+      document.documentElement.classList.remove('cecp-cookies-abierto');
     }
 
     if (btnAceptar) {
@@ -144,7 +149,12 @@
     left: 16px;
     right: 16px;
     bottom: 16px;
-    z-index: 60;
+    /* Por encima del botón flotante de WhatsApp (`.wa-float`, z-index 2000 en
+       global.css). Con el valor anterior (60) el botón quedaba ENCIMA del aviso
+       y, por debajo de ~736 px de ancho, se comía el centro del botón
+       "Aceptar": tocarlo abría WhatsApp en vez de conceder el consentimiento.
+       Ver también la regla que esconde el botón mientras el aviso está abierto. */
+    z-index: 2100;
     max-width: 560px;
     margin-inline: auto;
     background: #fff;

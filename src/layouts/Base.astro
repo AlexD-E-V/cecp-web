@@ -111,6 +111,11 @@ const ogImage = new URL('/og-cecp.jpg', Astro.site);
     }
   </head>
   <body>
+    {/* Primer elemento enfocable de la página: quien navega con teclado se
+        salta de un tabulador la cabecera fija (logo + 7 enlaces + CTA), que si
+        no hay que recorrer entera en cada página. Invisible hasta que recibe el
+        foco. Apunta al <main id="contenido"> de cada página. */}
+    <a class="skip-link" href="#contenido">Saltar al contenido</a>
     <Header />
     <slot />
     <Footer />

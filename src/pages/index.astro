@@ -124,14 +124,22 @@ const schemaMedicos = {
     <script is:inline type="application/ld+json" set:html={JSON.stringify(schemaMedicos)} />
   </Fragment>
 
+  {/* El loader es una cortina que tapa la página entera, no contenido: queda
+      fuera de <main>. */}
   <Loader />
-  <Hero />
-  <Confianza />
-  <Cardiogenetica />
-  <Especialidades />
-  <Membresia />
-  <Horario />
-  <Testimonios />
-  <Contacto />
-  <MapaUbicacion />
+
+  {/* id="contenido": destino del enlace "Saltar al contenido" que Base.astro
+      pone al principio de todas las páginas. Toda página con <main> debe
+      llevarlo. */}
+  <main id="contenido">
+    <Hero />
+    <Confianza />
+    <Cardiogenetica />
+    <Especialidades />
+    <Membresia />
+    <Horario />
+    <Testimonios />
+    <Contacto />
+    <MapaUbicacion />
+  </main>
 </Base>

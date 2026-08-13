@@ -25,6 +25,16 @@ Node 22, salida `dist/`). No hay que subir archivos a mano.
 Flujo de trabajo: rama → PR → merge a `main` → deploy solo. Antes de mergear,
 correr `npm run check` y `npm run build` en local.
 
+### Verificación automática (CI)
+
+`.github/workflows/ci.yml` corre esas mismas dos órdenes en GitHub Actions con
+Node 22 —la versión del build de Hostinger— en **cada push a `main` y en cada
+PR**. Como Hostinger publica con cada push sin revisar nada por el camino, sin
+esto un error de tipos o un import roto se descubriría en el sitio ya en vivo.
+
+El CI **no despliega**: solo avisa. Si sale en rojo, el deploy de Hostinger ya
+ocurrió igual, así que conviene mirar el PR antes de mergear, no después.
+
 Si algún día hiciera falta desplegar a mano en otro hosting estático: subir el
 **contenido** de `dist/` (incluye `.htaccess` con la 404 personalizada y el
 cacheo de assets para Apache/LiteSpeed).
@@ -64,6 +74,19 @@ familia o un peso basta con editar `astro.config.ts`.
 `Referrer-Policy`, `X-Frame-Options`, `Permissions-Policy` y HSTS. El propio
 archivo documenta por qué HSTS va sin `includeSubDomains` y por qué todavía no
 hay `Content-Security-Policy`.
+
+## Accesibilidad
+
+Dos piezas que conviene no romper al tocar el maquetado:
+
+- **Cada página tiene un `<main id="contenido">`.** El id no es decorativo: es el
+  destino del enlace "Saltar al contenido" que `Base.astro` pone como primer
+  elemento enfocable de todas las páginas. Al crear una página nueva hay que
+  darle su `<main id="contenido">`, o ese enlace no llevará a ninguna parte.
+- **El aviso de cookies va por encima del botón flotante de WhatsApp**
+  (`z-index` 2100 vs 2000) y lo esconde mientras está abierto. Por debajo de
+  ~736 px de ancho ambos ocupan la misma esquina: sin eso, tocar "Aceptar" en un
+  móvil abría WhatsApp en vez de aceptar, y el consentimiento nunca se concedía.
 
 ## Mantenimiento de dependencias
 

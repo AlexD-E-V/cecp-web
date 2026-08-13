@@ -1,0 +1,41 @@
+# Verificación automática antes de que el código llegue al sitio en vivo.
+#
+# Hostinger construye y publica en cecponline.com con CADA push a `main`, sin
+# nada que lo revise por el camino: un error de tipos o un import roto se
+# descubriría en el sitio ya publicado. Este flujo corre las mismas dos órdenes
+# que el README pide correr en local antes de mergear, y marca el commit o el
+# PR en rojo si alguna falla.
+#
+# No despliega nada: de eso sigue encargándose Hostinger.
+
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  verificar:
+    name: Tipos y build
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # Node 22: la misma versión que usa el build de Hostinger. Mantenerlas
+      # iguales evita que algo pase aquí y falle allá (o al revés).
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      # `npm ci` (y no `npm install`): instala exactamente lo que fija
+      # package-lock.json, sin actualizar nada por su cuenta.
+      - run: npm ci
+
+      - name: Verificación de tipos (astro check)
+        run: npm run check
+
+      - name: Build de producción
+        run: npm run build
